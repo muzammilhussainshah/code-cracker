@@ -12,6 +12,8 @@ target 'codeFinder' do
     :hermes_enabled => false
   )
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'codeFinderTests' do
     inherit! :complete
     # Pods for testing
