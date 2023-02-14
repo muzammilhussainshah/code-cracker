@@ -7,9 +7,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.black,
     },
-    bgImageStyle: {
-        height: "100%", width: '100%', paddingTop: RFPercentage(7),
-        // paddingHorizontal:RFPercentage(1),
-    }
+   
 
 });

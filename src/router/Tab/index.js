@@ -20,11 +20,11 @@ function RootNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName='LevelScreen'
+      initialRouteName='MainScreen'
     >
       {/* <Stack.Screen name="MyTabs" component={MyTabs} /> */}
       <Stack.Screen name="LevelScreen" component={LevelScreen} /> 
-      {/* <Stack.Screen name="MainScreen" component={MainScreen} />  */}
+      <Stack.Screen name="MainScreen" component={MainScreen} /> 
 
       {/* <Stack.Screen name="LevelScreen" component={LevelScreen} />
       <Stack.Screen name="TrendingNews" component={TrendingNews} />
