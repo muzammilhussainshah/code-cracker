@@ -23,4 +23,5 @@ export const styles = StyleSheet.create({
         width: RFPercentage(9),
         resizeMode: 'contain'
     },
+    buttonContainer: { flexDirection: 'row', flex: 4, width: '100%', justifyContent: "space-evenly" },
 });

@@ -14,6 +14,8 @@ target 'codeFinder' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'RNRate', :path => '../node_modules/react-native-rate'
+
   target 'codeFinderTests' do
     inherit! :complete
     # Pods for testing
