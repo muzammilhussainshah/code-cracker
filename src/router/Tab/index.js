@@ -4,7 +4,6 @@ import * as React from 'react';
 import LevelScreen from '../../pages/LevelScreen/LevelScreen';
 import MainScreen from '../../pages/MainScreen/MainScreen';
 
-// import MyTabs from './SCBottomTabNavigator';
 
 export default function Navigation() {
   return (
@@ -20,15 +19,10 @@ function RootNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName='MainScreen'
-    >
-      {/* <Stack.Screen name="MyTabs" component={MyTabs} /> */}
+      initialRouteName='LevelScreen'
+    > 
       <Stack.Screen name="LevelScreen" component={LevelScreen} /> 
-      <Stack.Screen name="MainScreen" component={MainScreen} /> 
-
-      {/* <Stack.Screen name="LevelScreen" component={LevelScreen} />
-      <Stack.Screen name="TrendingNews" component={TrendingNews} />
-      <Stack.Screen name="MatchNews" component={MatchNews} /> */}
+      <Stack.Screen name="MainScreen" component={MainScreen} />  
     </Stack.Navigator>
   );
 }

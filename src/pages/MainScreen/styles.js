@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     },
     bgImageStyle: {
         height: "100%", width: '100%', paddingTop: RFPercentage(7),
-        // paddingHorizontal:RFPercentage(1),
     },
     headerContainer: { flex: 2, marginHorizontal: RFPercentage(1) },
     headerSubContainer: { flex: 1, flexDirection: 'row' },
