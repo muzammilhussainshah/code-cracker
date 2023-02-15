@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Text,
     View,
@@ -14,7 +14,7 @@ import Colors from '../../../styles/Colors';
 
 import { styles } from '../styles';
 
-export const Header = () => {
+export const Header = ({ setIsDropDownOpen, selectedLanguage }) => {
     return (
         <View style={styles.headerContainer}>
             <View style={styles.headerSubContainer}>
@@ -35,11 +35,12 @@ export const Header = () => {
                 </View>
                 <TouchableOpacity
                     activeOpacity={.8}
+                    onPress={() => setIsDropDownOpen()}
                     style={styles.languageContainer}>
                     <ImageBackground
                         source={require('../../../assets/lang2.png')}
                         style={styles.enContainer} >
-                        <Text style={styles.language}>{`EN`}</Text>
+                        <Text style={styles.language}>{selectedLanguage}</Text>
                     </ImageBackground>
                 </TouchableOpacity>
 
@@ -60,27 +61,45 @@ export const Header = () => {
         </View>
     )
 }
+const code = () => {
+    const [value, setValue] = useState(0)
+    return (
+        <View style={styles.codeAnswerSubContainer}>
+            <TouchableOpacity
+                onPress={() => {
+                    if (value < 9) setValue(value + 1)
+                }}
+                activeOpacity={.8}>
+                <AntDesign
+                    name='caretup'
+                    size={RFPercentage(3)}
+                    color={Colors.secondary} />
+            </TouchableOpacity>
+            <ImageBackground
+                source={require('../../../assets/numberFrame.png')}
+                style={styles.frameIcon} >
+                <Text style={[styles.score, { fontSize: RFPercentage(2.6) }]}>{value}</Text>
+            </ImageBackground>
+            <TouchableOpacity
+                onPress={() => {
+                    if (value > 0) setValue(value - 1)
+                }}
+                activeOpacity={.8}>
+                <AntDesign
+                    name='caretdown'
+                    size={RFPercentage(3)}
+                    color={Colors.secondary} />
+            </TouchableOpacity>
+
+        </View>
+    )
+}
 export const CodeAnwer = () => {
+
     return (
         <View style={styles.codeAnswerContainer}>
             <View style={styles.answerFrameContainer}>
-                {[3, 4, 9, 7, 4].map((item) => (
-                    <View style={styles.codeAnswerSubContainer}>
-                        <AntDesign
-                            name='caretup'
-                            size={RFPercentage(3)}
-                            color={Colors.secondary} />
-                        <ImageBackground
-                            source={require('../../../assets/numberFrame.png')}
-                            style={styles.frameIcon} >
-                            <Text style={[styles.score, { fontSize: RFPercentage(2.6) }]}>{item}</Text>
-                        </ImageBackground>
-                        <AntDesign
-                            name='caretdown'
-                            size={RFPercentage(3)}
-                            color={Colors.secondary} />
-                    </View>
-                ))}
+                {[0, 0].map(() => code())}
 
             </View>
             <TouchableOpacity activeOpacity={.8} style={styles.checkBtn}>
@@ -126,5 +145,22 @@ export const Codes = () => {
             ))}
         </View>
 
+    )
+}
+export const DropDown = ({ setselectedLanguage, setIsDropDownOpen, isDropDownOpen }) => {
+    return (
+        <View style={styles.dropDown}>
+            {['EN', 'RU', 'FR'].map((item) => (
+                <TouchableOpacity
+                    activeOpacity={.8}
+                    onPress={() => {
+                        setselectedLanguage(item)
+                        setIsDropDownOpen(!isDropDownOpen)
+                    }}
+                    style={styles.dropDownContainer}>
+                    <Text style={styles.dropDownVal}>{item}</Text>
+                </TouchableOpacity>
+            ))}
+        </View>
     )
 }

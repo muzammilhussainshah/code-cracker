@@ -99,7 +99,21 @@ export const styles = StyleSheet.create({
     },
     resultMsg: { textAlign: 'center', letterSpacing: RFPercentage(-.15), width: '80%', fontSize: RFPercentage(1.3) },
     check: { height: '80%', width: '80%', resizeMode: 'contain' },
-    resultMsgContainer:{ flex: 1, backgroundColor: Colors.black },
-    answerFrameContainer:{ flex: 6, justifyContent: "center", flexDirection: 'row' },
-    checkBtn:{ flex: 2, justifyContent: "center", alignItems: "center" },
+    resultMsgContainer: { flex: 1, backgroundColor: Colors.black },
+    answerFrameContainer: { flex: 6, justifyContent: "center", flexDirection: 'row' },
+    checkBtn: { flex: 2, justifyContent: "center", alignItems: "center" },
+    dropDownVal: { color: Colors.secondary, fontWeight: "bold", fontStyle: 'italic' },
+    dropDownContainer: {
+        borderColor: Colors.primary,
+        backgroundColor: Colors.black,
+        borderWidth: 2, justifyContent: 'center', alignItems: 'center',
+        height: RFPercentage(5)
+    },
+    dropDown: {
+        position: 'absolute', zIndex: 2,
+        height: RFPercentage(10),
+        top: '13%',
+        right: '4.5%',
+        width: RFPercentage(5)
+    },
 });

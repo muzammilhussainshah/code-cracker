@@ -1,32 +1,48 @@
 // @app
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   ImageBackground,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
+import { color } from 'react-native-reanimated';
+import { RFPercentage } from 'react-native-responsive-fontsize';
+import Colors from '../../styles/Colors';
 
 import {
   CodeAnwer,
   Codes,
+  DropDown,
   Header
 } from './Components/Component';
 
 import { styles } from './styles';
 
 const MainScreen = ({ navigation, route }) => {
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false)
+  const [selectedLanguage, setselectedLanguage] = useState('EN')
+
   return (
     <View style={styles.container}>
       <ImageBackground
         source={require('../../assets/bg.png')}
         resizeMode="cover"
         style={styles.bgImageStyle}>
-      
-        <Header />
-      
+        {isDropDownOpen &&
+          <DropDown
+            isDropDownOpen={isDropDownOpen}
+            setselectedLanguage={setselectedLanguage}
+            setIsDropDownOpen={setIsDropDownOpen} />
+        }
+        <Header
+          selectedLanguage={selectedLanguage}
+          setIsDropDownOpen={() => setIsDropDownOpen(!isDropDownOpen)} />
+
         <CodeAnwer />
-      
+
         <Codes />
-      
+
       </ImageBackground >
     </View >
   );
