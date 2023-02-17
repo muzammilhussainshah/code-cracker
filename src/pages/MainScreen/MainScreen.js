@@ -23,6 +23,7 @@ const MainScreen = ({ navigation, route }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
   const [selectedLanguage, setselectedLanguage] = useState('EN')
 
+  
   return (
     <View style={styles.container}>
       <ImageBackground

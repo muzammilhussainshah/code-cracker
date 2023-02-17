@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import { t } from 'i18next';
+import React, { useEffect, useState } from 'react';
 import {
     Text,
     View,
@@ -10,7 +11,10 @@ import {
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import { setItem } from '../../../helpers/AsyncStorage';
+import i18n from '../../../i18n';
 import Colors from '../../../styles/Colors';
+import { appLanguages } from '../../../utilities/languageData';
 
 import { styles } from '../styles';
 
@@ -28,7 +32,10 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage }) => {
                 <View style={styles.scoreContainer}>
                     <View style={styles.scoreBorderContainer}>
                         <View style={[styles.scoreBorderContainer, styles.scoreSubContainer]}>
-                            <Text style={styles.score}>{`YOUR SCORE`}</Text>
+                            <Text style={styles.score}>{
+                                t('fullName')
+                                // `YOUR SCORE`
+                            }</Text>
                             <Text style={styles.score}>{`24240`}</Text>
                         </View>
                     </View>
@@ -119,11 +126,11 @@ export const CodeAnwer = () => {
 export const Codes = () => {
     return (
         <View style={[styles.codeContainer, { paddingBottom: RFPercentage(3) }]}>
-            {[0, 0, 0, 0].map(() => (
-                <View style={styles.codeSubContainer}>
+            {[0, 0, 0, 0].map((val,index) => (
+                <View style={styles.codeSubContainer} key={index.toString()}>
                     <View style={styles.frameContainer}>
-                        {[0, 0, 0, 0].map(() => (
-                            <TouchableOpacity activeOpacity={.8} style={{ flex: 1 }}>
+                        {[0, 0, 0, 0].map((val,index) => (
+                            <TouchableOpacity activeOpacity={.8} style={{ flex: 1 }} key={index.toString()} >
                                 <ImageBackground
                                     source={require('../../../assets/numberFrame.png')}
                                     resizeMode="contain"
@@ -148,19 +155,35 @@ export const Codes = () => {
     )
 }
 export const DropDown = ({ setselectedLanguage, setIsDropDownOpen, isDropDownOpen }) => {
+
+
+    const setLanguageAsync = async (lang) => {
+        await setItem('languagecode', lang)
+    }
+
+    const onLanguageSelect = (langId) => {
+        let lang = appLanguages.find((item) => item.id === langId)
+        console.log(lang?.code, 'lang?.codelang?.code')
+        i18n.changeLanguage(lang?.code)
+        setLanguageAsync(lang?.code)
+        // setSelected(langId)
+    }
     return (
         <View style={styles.dropDown}>
-            {['EN', 'RU', 'FR'].map((item) => (
-                <TouchableOpacity
-                    activeOpacity={.8}
-                    onPress={() => {
-                        setselectedLanguage(item)
-                        setIsDropDownOpen(!isDropDownOpen)
-                    }}
-                    style={styles.dropDownContainer}>
-                    <Text style={styles.dropDownVal}>{item}</Text>
-                </TouchableOpacity>
-            ))}
+            {
+                // ['EN', 'RU', 'FR']
+                appLanguages.map((item) => (
+                    <TouchableOpacity
+                        activeOpacity={.8}
+                        onPress={() => {
+                            onLanguageSelect(item.id)
+                            setselectedLanguage(item.code)
+                            setIsDropDownOpen(!isDropDownOpen)
+                        }}
+                        style={styles.dropDownContainer}>
+                        <Text style={styles.dropDownVal}>{item.code}</Text>
+                    </TouchableOpacity>
+                ))}
         </View>
     )
 }

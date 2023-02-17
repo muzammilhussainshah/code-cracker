@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.32,
         shadowRadius: 5.46,
-        elevation: 9,
+        // elevation: 9,
 
     },
     help: { fontSize: RFPercentage(2.), fontWeight: '600', color: Colors.black, fontStyle: "italic" },
@@ -75,7 +75,7 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.32,
         shadowRadius: 5.46,
-        elevation: 9,
+        // elevation: 9,
     },
     wrongCode: { height: RFPercentage(20), top: '28%', width: '100%', },
     wrongCodeContainer: {
@@ -102,7 +102,7 @@ export const styles = StyleSheet.create({
     resultMsgContainer: { flex: 1, backgroundColor: Colors.black },
     answerFrameContainer: { flex: 6, justifyContent: "center", flexDirection: 'row' },
     checkBtn: { flex: 2, justifyContent: "center", alignItems: "center" },
-    dropDownVal: { color: Colors.secondary, fontWeight: "bold", fontStyle: 'italic' },
+    dropDownVal: { color: Colors.secondary, fontWeight: "bold", fontStyle: 'italic' ,textTransform:"uppercase"},
     dropDownContainer: {
         borderColor: Colors.primary,
         backgroundColor: Colors.black,
