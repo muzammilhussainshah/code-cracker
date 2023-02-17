@@ -33,7 +33,8 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage }) => {
                     <View style={styles.scoreBorderContainer}>
                         <View style={[styles.scoreBorderContainer, styles.scoreSubContainer]}>
                             <Text style={styles.score}>{
-                                t('fullName')
+                                // t('fullName')
+                                t('yourScore')
                                 // `YOUR SCORE`
                             }</Text>
                             <Text style={styles.score}>{`24240`}</Text>

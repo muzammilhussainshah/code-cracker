@@ -29,7 +29,8 @@ export const styles = StyleSheet.create({
         fontSize: RFPercentage(2.),
         top: "20%",
         left: '25%',
-        fontWeight: '600', color: Colors.secondary, fontStyle: "italic"
+        fontWeight: '600', color: Colors.secondary, fontStyle: "italic",
+        textTransform:'uppercase'
     },
     score: { fontSize: RFPercentage(1.7), fontWeight: 'bold', color: Colors.secondary, fontStyle: "italic" },
     codeAnswerSubContainer: {
