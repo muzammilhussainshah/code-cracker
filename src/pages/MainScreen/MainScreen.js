@@ -1,13 +1,15 @@
 // @app
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   ImageBackground,
   Text,
   TouchableOpacity,
 } from 'react-native';
+
 import { color } from 'react-native-reanimated';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import firestore from '@react-native-firebase/firestore';
 import Colors from '../../styles/Colors';
 
 import {
@@ -23,7 +25,13 @@ const MainScreen = ({ navigation, route }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
   const [selectedLanguage, setselectedLanguage] = useState('EN')
 
-  
+  // Get user document with an ID of ABC
+  useEffect(async () => {
+
+    const user = await firestore().collection('Users').doc('w6nGp47IlLsO9htyYf2q').get();
+    console.log(user.data(), 'usersusers')
+  }, [])
+
   return (
     <View style={styles.container}>
       <ImageBackground
