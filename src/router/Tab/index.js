@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import LevelScreen from '../../pages/LevelScreen/LevelScreen';
+import Splash from '../../pages/Splash/Splash';
 import MainScreen from '../../pages/MainScreen/MainScreen';
 
 
@@ -19,8 +20,9 @@ function RootNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName='MainScreen'
+      initialRouteName='Splash'
     > 
+      <Stack.Screen name="Splash" component={Splash} /> 
       <Stack.Screen name="LevelScreen" component={LevelScreen} /> 
       <Stack.Screen name="MainScreen" component={MainScreen} />  
     </Stack.Navigator>
