@@ -13,21 +13,21 @@ import {
 } from 'react-redux';
 
 
-const Splash = ({ }) => {
+const Splash = ({ navigation}) => {
   const currentUser = useSelector((state) => state.root.currentUser);
   const codeWithHints = useSelector((state) => state.root.codeWithHints);
 
   const dispatch = useDispatch()
   
   useEffect( () => {
-    dispatch(getUser())
+    dispatch(getUser(navigation))
   }, []);
+  // useEffect( () => {
+  //   console.log(codeWithHints,'codeWithHintscodeWithHintscodeWithHintscodeWithHints')
+  // }, [codeWithHints]);
   useEffect( () => {
-    console.log(codeWithHints,'codeWithHintscodeWithHintscodeWithHintscodeWithHints')
-  }, [codeWithHints]);
-  useEffect( () => {
-    console.log(currentUser,'currentUser')
-  }, [currentUser]);
+    console.log(currentUser,'currentUser',codeWithHints,navigation)
+  }, [currentUser,codeWithHints]);
 
 
   return (

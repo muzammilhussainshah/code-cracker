@@ -7,7 +7,7 @@ import DeviceInfo from 'react-native-device-info';
 
 import firestore from '@react-native-firebase/firestore';
 
-export const getUser = (date) => {
+export const getUser = (navigation) => {
     return async (dispatch) => {
         // w6nGp47IlLsO9htyYf2q
         const deviceId = DeviceInfo.getUniqueId();
@@ -18,18 +18,19 @@ export const getUser = (date) => {
             if (userDocSnapshot.exists) {
                 const userData = userDocSnapshot.data();
                 dispatch({ type: ActionTypes.CURRENTUSER, payload: userData });
-                dispatch(getCode(userData.level))
+                dispatch(getCode(userData.level,navigation))
                 console.log('User data:', userData);
             } else {
                 console.log('User not found so creating new one', deviceId);
                 let newUserData = {
                     score: '0',
                     remainingRefresh: '5',
-                    level: '1'
+                    level: '0',
+                    remainingWrongAttempt : '3',
                 }
                 userDocRef.set(newUserData)
                 dispatch({ type: ActionTypes.CURRENTUSER, payload: newUserData });
-                dispatch(getCode(newUserData.level))
+                dispatch(getCode(newUserData.level,navigation))
 
 
             }
@@ -41,7 +42,7 @@ export const getUser = (date) => {
 
 
 
-export const getCode = (level) => {
+export const getCode = (level,navigation) => {
     return async (dispatch) => {
         // w6nGp47IlLsO9htyYf2q
         const deviceId = DeviceInfo.getUniqueId();
@@ -62,11 +63,11 @@ export const getCode = (level) => {
             if (userDocSnapshot.exists) {
                 const codesWithHints = userDocSnapshot.data();
                 dispatch({ type: ActionTypes.CODEWITHHINTS, payload: codesWithHints.codesWithHints });
-
+                navigation.navigate('MainScreen')
                 // console.log('getCode data:', codesWithHints.codesWithHints);
             } else {
                 console.log('Code not found so creating new one', deviceId);
-                dispatch(createCode(level))
+                dispatch(createCode(level,navigation))
 
 
             }
@@ -83,7 +84,7 @@ export const getCode = (level) => {
 
 
 
-export const createCode = (level) => {
+export const createCode = (level,navigation) => {
     return async (dispatch) => {
 
         try {
@@ -149,6 +150,7 @@ export const createCode = (level) => {
             } else {
                 console.log(`${level} is not between 2 and 5`);
             }
+            navigation.navigate('MainScreen')
 
 
         } catch (error) {
