@@ -15,12 +15,16 @@ import {
 
 const Splash = ({ }) => {
   const currentUser = useSelector((state) => state.root.currentUser);
+  const codeWithHints = useSelector((state) => state.root.codeWithHints);
 
   const dispatch = useDispatch()
   
   useEffect( () => {
     dispatch(getUser())
   }, []);
+  useEffect( () => {
+    console.log(codeWithHints,'codeWithHintscodeWithHintscodeWithHintscodeWithHints')
+  }, [codeWithHints]);
   useEffect( () => {
     console.log(currentUser,'currentUser')
   }, [currentUser]);
