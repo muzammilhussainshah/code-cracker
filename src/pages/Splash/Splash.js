@@ -11,6 +11,7 @@ import { getUser } from '../../store/action/action';
 import {
   useDispatch,useSelector
 } from 'react-redux';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 
 const Splash = ({ navigation}) => {
@@ -19,14 +20,26 @@ const Splash = ({ navigation}) => {
 
   const dispatch = useDispatch()
   
-  useEffect( () => {
+  useEffect( async() => {
     dispatch(getUser(navigation))
+//     await remoteConfig().fetchAndActivate();
+
+//     remoteConfig().setConfigSettings({
+//       minimumFetchIntervalMillis: 0, // Cache the values for 1 hour
+//     });
+    
+
+//     const remainingRefresh = remoteConfig().getValue('remainingRefresh').asString();
+//     const remainingWrongAttempt = remoteConfig().getValue('remainingWrongAttempt').asString();
+// alert(remainingRefresh)
+// alert(remainingWrongAttempt)
+
   }, []);
   // useEffect( () => {
   //   console.log(codeWithHints,'codeWithHintscodeWithHintscodeWithHintscodeWithHints')
   // }, [codeWithHints]);
   useEffect( () => {
-    console.log(currentUser,'currentUser',codeWithHints,navigation)
+    console.log(currentUser,codeWithHints,'codeWithHintscodeWithHintscodeWithHintscodeWithHints')
   }, [currentUser,codeWithHints]);
 
 
