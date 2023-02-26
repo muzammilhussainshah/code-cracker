@@ -76,7 +76,7 @@ export const getCode = (level, navigation) => {
 
 
 
-export const createCode = (level = '4', navigation) => {
+export const createCode = (level, navigation) => {
     return async (dispatch) => {
         try {
             let NCstr = 'Nothing correct';
