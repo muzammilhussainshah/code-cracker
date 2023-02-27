@@ -3,9 +3,19 @@ import DeviceInfo from 'react-native-device-info';
 import firestore from '@react-native-firebase/firestore';
 import remoteConfig from '@react-native-firebase/remote-config';
 
+const deviceId = DeviceInfo.getUniqueId();
+
+
+
+
+
+
+
+
+
 export const getUser = (navigation) => {
     return async (dispatch) => {
-        const deviceId = DeviceInfo.getUniqueId();
+
         await remoteConfig().fetchAndActivate(); //remote config for remainingRefresh,remainingWrongAttempt
         remoteConfig().setConfigSettings({
             minimumFetchIntervalMillis: 0,
@@ -351,5 +361,45 @@ const gettwoCW = (guessCode) => {
         }
     }
     return twoCW
+}
+
+export const correctAnswer = (navigation, currentUser) => {
+    return async (dispatch) => {
+
+        await remoteConfig().fetchAndActivate(); //remote config for remainingRefresh,remainingWrongAttempt
+        remoteConfig().setConfigSettings({
+            minimumFetchIntervalMillis: 0,
+        });
+        const remainingRefresh = remoteConfig().getValue('remainingRefresh').asString();
+        const remainingWrongAttempt = remoteConfig().getValue('remainingWrongAttempt').asString();
+
+
+        try {
+            const userDocRef = firestore().collection('Users').doc(deviceId);
+
+            let currentUserUpdate = currentUser;
+            currentUserUpdate.level = currentUser.level + 1;
+            currentUserUpdate.score = currentUser.score + 1;
+            currentUserUpdate.remainingRefresh = remainingRefresh;
+            currentUserUpdate.remainingWrongAttempt = remainingWrongAttempt
+
+
+
+            
+            await userDocRef.update(currentUserUpdate);
+            // await userDocRef.update({ level: firestore.FieldValue.increment(1) });
+            // await userDocRef.update({ level: firestore.FieldValue.increment(1) });
+            await dispatch(getCode(currentUser.level + 1, navigation));
+            navigation.navigate('LevelScreen')
+           
+
+            dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
+
+
+            console.log('Score incremented in Firestore document.');
+        } catch (error) {
+            console.error('Error incrementing score in Firestore document: ', error);
+        }
+    }
 }
 

@@ -1,5 +1,5 @@
 // @app
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, } from 'react';
 import {
   View,
   ImageBackground,
@@ -11,26 +11,32 @@ import { color } from 'react-native-reanimated';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import firestore from '@react-native-firebase/firestore';
 import Colors from '../../styles/Colors';
-
+import {
+  useDispatch, useSelector
+} from 'react-redux';
 import {
   CodeAnwer,
   Codes,
   DropDown,
   Header
 } from './Components/Component';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 import { styles } from './styles';
 
 const MainScreen = ({ navigation, route }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
   const [selectedLanguage, setselectedLanguage] = useState('EN')
-
+  const [CodeHintsST, setCodeHintsST] = useState()
+  const currentUser = useSelector((state) => state.root.currentUser);
+  const codeWithHints = useSelector((state) => state.root.codeWithHints);
   // Get user document with an ID of ABC
-  useEffect(async () => {
 
-    const user = await firestore().collection('Users').doc('w6nGp47IlLsO9htyYf2q').get();
-    console.log(user.data(), 'usersusers')
+  useEffect(() => {
+    setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)])
+
   }, [])
+
 
   return (
     <View style={styles.container}>
@@ -46,11 +52,11 @@ const MainScreen = ({ navigation, route }) => {
         }
         <Header
           selectedLanguage={selectedLanguage}
+          score={currentUser.score}
           setIsDropDownOpen={() => setIsDropDownOpen(!isDropDownOpen)} />
-
-        <CodeAnwer />
-
-        <Codes />
+        {CodeHintsST && <CodeAnwer codeWithHints={CodeHintsST} navigation={navigation} currentUser={currentUser}/>}
+        {CodeHintsST && <Codes codeWithHints={CodeHintsST} />}
+        
 
       </ImageBackground >
     </View >

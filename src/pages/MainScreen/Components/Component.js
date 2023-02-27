@@ -13,12 +13,17 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { setItem } from '../../../helpers/AsyncStorage';
 import i18n from '../../../i18n';
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux';
 import Colors from '../../../styles/Colors';
+import { correctAnswer } from '../../../store/action/action';
 import { appLanguages } from '../../../utilities/languageData';
 
 import { styles } from '../styles';
 
-export const Header = ({ setIsDropDownOpen, selectedLanguage }) => {
+export const Header = ({ setIsDropDownOpen, selectedLanguage, score }) => {
     return (
         <View style={styles.headerContainer}>
             <View style={styles.headerSubContainer}>
@@ -37,7 +42,7 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage }) => {
                                 t('yourScore')
                                 // `YOUR SCORE`
                             }</Text>
-                            <Text style={styles.score}>{`24240`}</Text>
+                            <Text style={styles.score}>{score}</Text>
                         </View>
                     </View>
                 </View>
@@ -69,13 +74,16 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage }) => {
         </View>
     )
 }
-const code = () => {
+const code = (v, i, callBack) => {
     const [value, setValue] = useState(0)
     return (
         <View style={styles.codeAnswerSubContainer}>
             <TouchableOpacity
                 onPress={() => {
-                    if (value < 9) setValue(value + 1)
+                    if (value < 9) {
+                        callBack(value + 1)
+                        setValue(value + 1)
+                    }
                 }}
                 activeOpacity={.8}>
                 <AntDesign
@@ -90,7 +98,10 @@ const code = () => {
             </ImageBackground>
             <TouchableOpacity
                 onPress={() => {
-                    if (value > 0) setValue(value - 1)
+                    if (value > 0) {
+                        callBack(value - 1)
+                        setValue(value - 1)
+                    }
                 }}
                 activeOpacity={.8}>
                 <AntDesign
@@ -102,15 +113,36 @@ const code = () => {
         </View>
     )
 }
-export const CodeAnwer = () => {
+export const CodeAnwer = ({ codeWithHints,navigation,currentUser }) => {
+    const [codeSt, setCodeSt] = useState([])
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        let initArray = []
+        codeWithHints.guessCode.map(() => { initArray.push(0) })
+        setCodeSt(initArray)
+    }, [codeWithHints.guessCode])
 
     return (
         <View style={styles.codeAnswerContainer}>
             <View style={styles.answerFrameContainer}>
-                {[0, 0].map(() => code())}
+                {codeWithHints.guessCode.map((v, i) => code(v, i, (codeDigit) => {
+                    let arrayCopy = JSON.parse(JSON.stringify(codeSt));
+                    arrayCopy.splice(i, 1, codeDigit)
+                    setCodeSt(arrayCopy)
+                }))}
 
             </View>
-            <TouchableOpacity activeOpacity={.8} style={styles.checkBtn}>
+            <TouchableOpacity
+                onPress={() => {
+                    console.log(codeSt, 'codeStcodeSt', codeWithHints.guessCode)
+                    if (JSON.stringify(codeSt) === JSON.stringify(codeWithHints.guessCode)) {//correct asnwer
+                        dispatch(correctAnswer(navigation,currentUser))
+                    } else {
+                        console.log("The arrays are different.");//wrong asnwer
+                    }
+                }}
+                activeOpacity={.8} style={styles.checkBtn}>
                 <Image
                     source={require('../../../assets/check.png')}
                     style={styles.check} />
@@ -124,18 +156,53 @@ export const CodeAnwer = () => {
 
     )
 }
-export const Codes = () => {
+export const Codes = ({ codeWithHints }) => {
+    console.log(codeWithHints, 'codeWithHintsijii')
     return (
         <View style={[styles.codeContainer, { paddingBottom: RFPercentage(3) }]}>
-            {[0, 0, 0, 0].map((val,index) => (
+
+            {
+                Object.keys(codeWithHints).map((key, index) => {
+                    if (key !== 'guessCode')
+                        return (
+                            <View style={styles.codeSubContainer} key={index.toString()}>
+                                <View style={styles.frameContainer}>
+                                    {codeWithHints[key].map((val, index) => (
+                                        <TouchableOpacity activeOpacity={.8} style={{ flex: 1 }} key={index.toString()} >
+                                            <ImageBackground
+                                                source={require('../../../assets/numberFrame.png')}
+                                                resizeMode="contain"
+                                                style={[styles.frameIcon, { height: '100%', }]} >
+                                                <Text style={[styles.score, { fontSize: RFPercentage(2.6) }]}>{val}</Text>
+                                            </ImageBackground>
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
+                                <View style={styles.resultMsgContainer}>
+                                    <ImageBackground
+                                        source={require('../../../assets/hintframe.png')}
+                                        resizeMode="stretch"
+                                        style={styles.codeFrame}>
+                                        <Text style={[styles.score, styles.resultMsg]}>{key}</Text>
+                                    </ImageBackground>
+                                </View>
+                            </View>
+                        )
+                })
+            }
+
+
+
+
+            {/* {codeWithHints.map((val, index) => (
                 <View style={styles.codeSubContainer} key={index.toString()}>
                     <View style={styles.frameContainer}>
-                        {[0, 0, 0, 0].map((val,index) => (
+                        {[0, 0, 0, 0].map((val, index) => (
                             <TouchableOpacity activeOpacity={.8} style={{ flex: 1 }} key={index.toString()} >
                                 <ImageBackground
                                     source={require('../../../assets/numberFrame.png')}
                                     resizeMode="contain"
-                                    style={styles.frameIcon} >
+                                    style={[styles.frameIcon, { height: '100%', }]} >
                                     <Text style={[styles.score, { fontSize: RFPercentage(2.6) }]}>{`3`}</Text>
                                 </ImageBackground>
                             </TouchableOpacity>
@@ -150,7 +217,7 @@ export const Codes = () => {
                         </ImageBackground>
                     </View>
                 </View>
-            ))}
+            ))} */}
         </View>
 
     )

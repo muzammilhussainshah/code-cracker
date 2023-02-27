@@ -14,7 +14,7 @@ import Colors from '../../styles/Colors';
 import { styles } from './styles';
 import { onShare, rateUs } from './Components/Component';
 
-const LevelScreen = ({ }) => {
+const LevelScreen = ({navigation }) => {
 
   return (
     <View style={styles.container}>
@@ -23,6 +23,7 @@ const LevelScreen = ({ }) => {
         resizeMode="cover"
         style={styles.bgImageStyle}>
         <TouchableOpacity
+        onPress={()=>navigation.push('MainScreen')}
           activeOpacity={.8}
           style={[styles.nextContainer, { flex: 6, justifyContent: "flex-end" }]}>
 
