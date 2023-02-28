@@ -18,8 +18,10 @@ import {
     useSelector
 } from 'react-redux';
 import Colors from '../../../styles/Colors';
-import { correctAnswer } from '../../../store/action/action';
+import { correctAnswer, wrongAnswer } from '../../../store/action/action';
 import { appLanguages } from '../../../utilities/languageData';
+import Loader from '../../../components/Loader';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 import { styles } from '../styles';
 
@@ -74,7 +76,7 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage, score }) => {
         </View>
     )
 }
-const code = (v, i, callBack) => {
+const Code = ({ v, i, callBack }) => {
     const [value, setValue] = useState(0)
     return (
         <View style={styles.codeAnswerSubContainer}>
@@ -113,8 +115,9 @@ const code = (v, i, callBack) => {
         </View>
     )
 }
-export const CodeAnwer = ({ codeWithHints,navigation,currentUser }) => {
+export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFunc, isWrong }) => {
     const [codeSt, setCodeSt] = useState([])
+    const [isLoader, setisLoader] = useState(false)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -126,27 +129,48 @@ export const CodeAnwer = ({ codeWithHints,navigation,currentUser }) => {
     return (
         <View style={styles.codeAnswerContainer}>
             <View style={styles.answerFrameContainer}>
-                {codeWithHints.guessCode.map((v, i) => code(v, i, (codeDigit) => {
-                    let arrayCopy = JSON.parse(JSON.stringify(codeSt));
-                    arrayCopy.splice(i, 1, codeDigit)
-                    setCodeSt(arrayCopy)
-                }))}
+
+                {isWrong ? <WrongModal currentUser={currentUser} wrongModalFunc={wrongModalFunc} /> :
+                    codeWithHints?.guessCode?.map((v, i) =>
+                        <Code v={v} i={i}
+                            callBack={(codeDigit) => {
+                                let arrayCopy = JSON.parse(JSON.stringify(codeSt));
+                                arrayCopy.splice(i, 1, codeDigit)
+                                setCodeSt(arrayCopy)
+                            }}
+                        />
+                    )
+                }
 
             </View>
-            <TouchableOpacity
-                onPress={() => {
-                    console.log(codeSt, 'codeStcodeSt', codeWithHints.guessCode)
-                    if (JSON.stringify(codeSt) === JSON.stringify(codeWithHints.guessCode)) {//correct asnwer
-                        dispatch(correctAnswer(navigation,currentUser))
-                    } else {
-                        console.log("The arrays are different.");//wrong asnwer
-                    }
-                }}
-                activeOpacity={.8} style={styles.checkBtn}>
-                <Image
-                    source={require('../../../assets/check.png')}
-                    style={styles.check} />
-            </TouchableOpacity>
+
+            {isLoader ?
+                <Loader />
+                :
+                <TouchableOpacity
+                    disabled={isWrong}
+                    onPress={() => {
+                        console.log(codeSt, 'codeStcodeSt', codeWithHints.guessCode)
+                        setisLoader(true)
+                        if (JSON.stringify(codeSt) === JSON.stringify(codeWithHints.guessCode)) {//correct asnwer
+                            dispatch(correctAnswer(navigation, currentUser, setisLoader))
+                        } else {
+                            console.log("The arrays are different.");//wrong asnwer
+
+                            setisLoader(false);
+                            dispatch(wrongAnswer(currentUser,));
+                            wrongModalFunc(true);
+
+                        }
+                    }}
+                    activeOpacity={.8} style={styles.checkBtn}>
+                    <Image
+                        source={require('../../../assets/check.png')}
+                        style={styles.check} />
+                </TouchableOpacity>
+
+            }
+
             <View style={{ flex: 2, }}>
                 <Image
                     source={require('../../../assets/hints.png')}
@@ -154,6 +178,27 @@ export const CodeAnwer = ({ codeWithHints,navigation,currentUser }) => {
             </View>
         </View>
 
+    )
+}
+export const WrongModal = ({ currentUser, wrongModalFunc }) => {
+    return (
+        <View style={{ width: '105%', height: '100%' }}>
+            <TouchableOpacity onPress={() => wrongModalFunc(false)} style={{ position: "absolute", zIndex: 2, right: 10, }}>
+                <FontAwesome
+                    name='close'
+                    color={Colors.white}
+                    size={RFPercentage(5)}
+                    style={{ fontWeight: 'bold' }} />
+            </TouchableOpacity>
+            <Image
+                source={require('../../../assets/wrong.jpg')}
+                style={{ width: '100%', height: 200, }}
+            // style={{ width: 200, height: 200, elevation: 5 }}
+            />
+            <View style={{ position: "absolute", zIndex: 1, width: '100%', height: 200, justifyContent: 'flex-end', alignItems: 'center' }}>
+                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingWrongAttempt<2?'you are demoted one level': currentUser.remainingWrongAttempt-1+' wrong atempt left' } </Text>
+            </View>
+        </View>
     )
 }
 export const Codes = ({ codeWithHints }) => {
@@ -222,6 +267,7 @@ export const Codes = ({ codeWithHints }) => {
 
     )
 }
+
 export const DropDown = ({ setselectedLanguage, setIsDropDownOpen, isDropDownOpen }) => {
 
 

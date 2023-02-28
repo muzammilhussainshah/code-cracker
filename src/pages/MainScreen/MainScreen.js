@@ -20,17 +20,30 @@ import {
   DropDown,
   Header
 } from './Components/Component';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 
+import { WrongModal } from './Components/Component';
 import { styles } from './styles';
 
 const MainScreen = ({ navigation, route }) => {
+  const [isWrong, setisWrong] = useState(false)
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
   const [selectedLanguage, setselectedLanguage] = useState('EN')
   const [CodeHintsST, setCodeHintsST] = useState()
   const currentUser = useSelector((state) => state.root.currentUser);
   const codeWithHints = useSelector((state) => state.root.codeWithHints);
   // Get user document with an ID of ABC
+  const isFocused = useIsFocused();
+  const routes = navigation.getState()?.routes;
+  const prevRoute = routes[routes.length - 2];
+
+  console.log(prevRoute, 'previousRouteName')
+
+  useEffect(() => {
+    if (prevRoute.name === "LevelScreen") {
+      setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)]);
+    }
+  }, [isFocused])
 
   useEffect(() => {
     setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)])
@@ -43,7 +56,8 @@ const MainScreen = ({ navigation, route }) => {
       <ImageBackground
         source={require('../../assets/bg.png')}
         resizeMode="cover"
-        style={styles.bgImageStyle}>
+        style={[styles.bgImageStyle,{opacity:isWrong?0.7:1}]}>
+      
         {isDropDownOpen &&
           <DropDown
             isDropDownOpen={isDropDownOpen}
@@ -54,9 +68,12 @@ const MainScreen = ({ navigation, route }) => {
           selectedLanguage={selectedLanguage}
           score={currentUser.score}
           setIsDropDownOpen={() => setIsDropDownOpen(!isDropDownOpen)} />
-        {CodeHintsST && <CodeAnwer codeWithHints={CodeHintsST} navigation={navigation} currentUser={currentUser}/>}
+        {CodeHintsST && <CodeAnwer codeWithHints={CodeHintsST} navigation={navigation} currentUser={currentUser}
+          wrongModalFunc={(bool) => setisWrong(bool)} isWrong={isWrong}
+
+        />}
         {CodeHintsST && <Codes codeWithHints={CodeHintsST} />}
-        
+
 
       </ImageBackground >
     </View >

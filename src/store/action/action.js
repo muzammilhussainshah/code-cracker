@@ -363,43 +363,76 @@ const gettwoCW = (guessCode) => {
     return twoCW
 }
 
-export const correctAnswer = (navigation, currentUser) => {
+export const correctAnswer = (navigation, currentUser,setisLoader) => {
     return async (dispatch) => {
-
         await remoteConfig().fetchAndActivate(); //remote config for remainingRefresh,remainingWrongAttempt
         remoteConfig().setConfigSettings({
             minimumFetchIntervalMillis: 0,
         });
         const remainingRefresh = remoteConfig().getValue('remainingRefresh').asString();
         const remainingWrongAttempt = remoteConfig().getValue('remainingWrongAttempt').asString();
-
-
         try {
-            const userDocRef = firestore().collection('Users').doc(deviceId);
-
             let currentUserUpdate = currentUser;
             currentUserUpdate.level = currentUser.level + 1;
             currentUserUpdate.score = currentUser.score + 1;
             currentUserUpdate.remainingRefresh = remainingRefresh;
             currentUserUpdate.remainingWrongAttempt = remainingWrongAttempt
-
-
-
-            
+            const userDocRef = firestore().collection('Users').doc(deviceId);
             await userDocRef.update(currentUserUpdate);
-            // await userDocRef.update({ level: firestore.FieldValue.increment(1) });
-            // await userDocRef.update({ level: firestore.FieldValue.increment(1) });
+            dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
             await dispatch(getCode(currentUser.level + 1, navigation));
             navigation.navigate('LevelScreen')
-           
-
-            dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
-
-
             console.log('Score incremented in Firestore document.');
+            setisLoader(false)
+
+        } catch (error) {
+            console.error('Error incrementing score in Firestore document: ', error);
+            setisLoader(false)
+        }
+    }
+}
+
+
+export const wrongAnswer = ( currentUser,) => {
+    return async (dispatch) => {
+        try {
+            let currentUserUpdate = currentUser;
+            await remoteConfig().fetchAndActivate(); //remote config for remainingRefresh,remainingWrongAttempt
+            remoteConfig().setConfigSettings({
+                minimumFetchIntervalMillis: 0,
+            });
+            const remainingRefresh = remoteConfig().getValue('remainingRefresh').asString();
+            const remainingWrongAttempt = remoteConfig().getValue('remainingWrongAttempt').asString();
+            
+            if (currentUser.remainingWrongAttempt<2&&currentUser.level>0) {
+                // currentUserUpdate.remainingWrongAttempt = currentUser.remainingWrongAttempt-1
+                // dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
+
+                currentUserUpdate.level = currentUser.level - 1;
+                currentUserUpdate.score = currentUser.score - 1;
+                currentUserUpdate.remainingRefresh = remainingRefresh;
+                currentUserUpdate.remainingWrongAttempt = remainingWrongAttempt
+                const userDocRef = firestore().collection('Users').doc(deviceId);
+                await userDocRef.update(currentUserUpdate);
+                dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
+
+
+
+
+                
+            } else {
+                currentUserUpdate.remainingWrongAttempt = currentUser.remainingWrongAttempt-1
+                const userDocRef = firestore().collection('Users').doc(deviceId);
+                await userDocRef.update(currentUserUpdate);
+                dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
+                
+            }
+            
+            
+
+
         } catch (error) {
             console.error('Error incrementing score in Firestore document: ', error);
         }
     }
 }
-
