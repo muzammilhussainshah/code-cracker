@@ -27,6 +27,7 @@ import { styles } from './styles';
 
 const MainScreen = ({ navigation, route }) => {
   const [isWrong, setisWrong] = useState(false)
+  const [isReset, setisReset] = useState(false)
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
   const [selectedLanguage, setselectedLanguage] = useState('EN')
   const [CodeHintsST, setCodeHintsST] = useState()
