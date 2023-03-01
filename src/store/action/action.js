@@ -2,6 +2,7 @@ import ActionTypes from "../constant/constant";
 import DeviceInfo from 'react-native-device-info';
 import firestore from '@react-native-firebase/firestore';
 import remoteConfig from '@react-native-firebase/remote-config';
+import { CommonActions } from '@react-navigation/native';
 
 const deviceId = DeviceInfo.getUniqueId();
 
@@ -69,7 +70,12 @@ export const getCode = (level, navigation) => {
             if (userDocSnapshot.exists) {
                 const codesWithHints = userDocSnapshot.data();
                 dispatch({ type: ActionTypes.CODEWITHHINTS, payload: codesWithHints.codesWithHints });
-                navigation.navigate('MainScreen')
+                // navigation.push('MainScreen')
+                const resetAction = CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'MainScreen' }],
+                  });
+                  navigation.dispatch(resetAction);
             } else {
                 dispatch(createCode(level, navigation))
             }
@@ -244,7 +250,13 @@ export const createCode = (level, navigation) => {
             }
 
             dispatch({ type: ActionTypes.CODEWITHHINTS, payload: codesWithHints });
-            navigation.navigate('MainScreen')
+            // navigation.navigate('MainScreen')
+            const resetAction = CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'MainScreen' }],
+              });
+              navigation.dispatch(resetAction);
+
 
         } catch (error) {
             console.error('Error getting user data:', error);
@@ -381,7 +393,16 @@ export const correctAnswer = (navigation, currentUser,setisLoader) => {
             await userDocRef.update(currentUserUpdate);
             dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
             await dispatch(getCode(currentUser.level + 1, navigation));
-            navigation.navigate('LevelScreen')
+            // navigation.navigate('LevelScreen');
+            const resetAction = CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'LevelScreen' }],
+              });
+              
+              navigation.dispatch(resetAction);
+
+
+
             console.log('Score incremented in Firestore document.');
             setisLoader(false)
 
@@ -393,7 +414,7 @@ export const correctAnswer = (navigation, currentUser,setisLoader) => {
 }
 
 
-export const wrongAnswer = ( currentUser,) => {
+export const wrongAnswer = ( currentUser,navigation) => {
     return async (dispatch) => {
         try {
             let currentUserUpdate = currentUser;
@@ -415,6 +436,9 @@ export const wrongAnswer = ( currentUser,) => {
                 const userDocRef = firestore().collection('Users').doc(deviceId);
                 await userDocRef.update(currentUserUpdate);
                 dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
+                setTimeout(() => {
+                    dispatch(getCode(currentUserUpdate.level,navigation))
+                }, 2000);
 
 
 

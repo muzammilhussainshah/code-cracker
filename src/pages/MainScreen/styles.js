@@ -99,10 +99,10 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     resultMsg: { textAlign: 'center', letterSpacing: RFPercentage(-.15), width: '80%', fontSize: RFPercentage(1.3) },
-    check: { height: '80%', width: '80%', resizeMode: 'contain' },
+    check: { height: '100%', width: '100%', resizeMode: 'contain' },
     resultMsgContainer: { flex: 1, backgroundColor: Colors.black },
     answerFrameContainer: { flex: 6, justifyContent: "center", flexDirection: 'row' },
-    checkBtn: { flex: 2, justifyContent: "center", alignItems: "center" },
+    checkBtn: { flex: 2, justifyContent: "center", alignItems: "center", },
     dropDownVal: { color: Colors.secondary, fontWeight: "bold", fontStyle: 'italic' ,textTransform:"uppercase"},
     dropDownContainer: {
         borderColor: Colors.primary,

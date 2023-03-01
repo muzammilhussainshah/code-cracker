@@ -40,7 +40,7 @@ const MainScreen = ({ navigation, route }) => {
   console.log(prevRoute, 'previousRouteName')
 
   useEffect(() => {
-    if (prevRoute.name === "LevelScreen") {
+    if (prevRoute?.name === "LevelScreen") {
       setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)]);
     }
   }, [isFocused])
@@ -56,7 +56,7 @@ const MainScreen = ({ navigation, route }) => {
       <ImageBackground
         source={require('../../assets/bg.png')}
         resizeMode="cover"
-        style={[styles.bgImageStyle,{opacity:isWrong?0.7:1}]}>
+        style={[styles.bgImageStyle,{opacity:isWrong?0.6:1}]}>
       
         {isDropDownOpen &&
           <DropDown
@@ -65,6 +65,7 @@ const MainScreen = ({ navigation, route }) => {
             setIsDropDownOpen={setIsDropDownOpen} />
         }
         <Header
+        isWrong={isWrong}
           selectedLanguage={selectedLanguage}
           score={currentUser.score}
           setIsDropDownOpen={() => setIsDropDownOpen(!isDropDownOpen)} />

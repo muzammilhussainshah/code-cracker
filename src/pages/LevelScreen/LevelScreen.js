@@ -13,6 +13,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Colors from '../../styles/Colors';
 import { styles } from './styles';
 import { onShare, rateUs } from './Components/Component';
+import { CommonActions } from '@react-navigation/native';
 
 const LevelScreen = ({navigation }) => {
 
@@ -23,7 +24,20 @@ const LevelScreen = ({navigation }) => {
         resizeMode="cover"
         style={styles.bgImageStyle}>
         <TouchableOpacity
-        onPress={()=>navigation.push('MainScreen')}
+        onPress={()=>{
+
+
+const resetAction = CommonActions.reset({
+  index: 0,
+  routes: [{ name: 'MainScreen' }],
+});
+
+navigation.dispatch(resetAction);
+          
+          
+        }
+     
+        }
           activeOpacity={.8}
           style={[styles.nextContainer, { flex: 6, justifyContent: "flex-end" }]}>
 

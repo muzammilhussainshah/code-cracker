@@ -25,12 +25,12 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 import { styles } from '../styles';
 
-export const Header = ({ setIsDropDownOpen, selectedLanguage, score }) => {
+export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong }) => {
     return (
         <View style={styles.headerContainer}>
             <View style={styles.headerSubContainer}>
                 <TouchableOpacity
-                    activeOpacity={.8}
+                    activeOpacity={.8} disabled={isWrong}
                     style={styles.refreshIconContainer}>
                     <Image
                         source={require('../../../assets/icon.png')}
@@ -49,6 +49,7 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage, score }) => {
                     </View>
                 </View>
                 <TouchableOpacity
+                    disabled={isWrong}
                     activeOpacity={.8}
                     onPress={() => setIsDropDownOpen()}
                     style={styles.languageContainer}>
@@ -147,9 +148,12 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
             {isLoader ?
                 <Loader />
                 :
-                <TouchableOpacity
+                <View
                     disabled={isWrong}
-                    onPress={() => {
+                   
+                    activeOpacity={.8} style={styles.checkBtn}>
+                    <TouchableOpacity
+                     onPress={() => {
                         console.log(codeSt, 'codeStcodeSt', codeWithHints.guessCode)
                         setisLoader(true)
                         if (JSON.stringify(codeSt) === JSON.stringify(codeWithHints.guessCode)) {//correct asnwer
@@ -158,16 +162,18 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
                             console.log("The arrays are different.");//wrong asnwer
 
                             setisLoader(false);
-                            dispatch(wrongAnswer(currentUser,));
+                            dispatch(wrongAnswer(currentUser, navigation));
                             wrongModalFunc(true);
 
                         }
                     }}
-                    activeOpacity={.8} style={styles.checkBtn}>
-                    <Image
-                        source={require('../../../assets/check.png')}
-                        style={styles.check} />
-                </TouchableOpacity>
+                    style={{width:'50%',height:'100%',}}>
+
+                        <Image
+                            source={require('../../../assets/check.png')}
+                            style={styles.check} />
+                    </TouchableOpacity>
+                </View>
 
             }
 
@@ -196,7 +202,7 @@ export const WrongModal = ({ currentUser, wrongModalFunc }) => {
             // style={{ width: 200, height: 200, elevation: 5 }}
             />
             <View style={{ position: "absolute", zIndex: 1, width: '100%', height: 200, justifyContent: 'flex-end', alignItems: 'center' }}>
-                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingWrongAttempt<2?'you are demoted one level': currentUser.remainingWrongAttempt-1+' wrong atempt left' } </Text>
+                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingWrongAttempt < 2 ? 'you are demoted one level' : currentUser.remainingWrongAttempt - 1 + ' wrong atempt left'} </Text>
             </View>
         </View>
     )
