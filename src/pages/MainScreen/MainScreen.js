@@ -57,7 +57,7 @@ const MainScreen = ({ navigation, route }) => {
       <ImageBackground
         source={require('../../assets/bg.png')}
         resizeMode="cover"
-        style={[styles.bgImageStyle,{opacity:isWrong?0.6:1}]}>
+        style={[styles.bgImageStyle,{opacity:isWrong||isReset?0.6:1}]}>
       
         {isDropDownOpen &&
           <DropDown
@@ -67,11 +67,16 @@ const MainScreen = ({ navigation, route }) => {
         }
         <Header
         isWrong={isWrong}
+        isReset={isReset}
+        resetModalFunc={(bool) => setisReset(bool)}
+
           selectedLanguage={selectedLanguage}
           score={currentUser.score}
           setIsDropDownOpen={() => setIsDropDownOpen(!isDropDownOpen)} />
+
         {CodeHintsST && <CodeAnwer codeWithHints={CodeHintsST} navigation={navigation} currentUser={currentUser}
-          wrongModalFunc={(bool) => setisWrong(bool)} isWrong={isWrong}
+        isReset={isReset}
+        wrongModalFunc={(bool) => setisWrong(bool)} isWrong={isWrong}  resetModalFunc={(bool) => setisReset(bool)}
 
         />}
         {CodeHintsST && <Codes codeWithHints={CodeHintsST} />}

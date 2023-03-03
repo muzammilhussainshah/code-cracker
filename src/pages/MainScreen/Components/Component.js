@@ -25,12 +25,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
 import { styles } from '../styles';
 
-export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong }) => {
+export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong, isReset, resetModalFunc }) => {
     return (
         <View style={styles.headerContainer}>
             <View style={styles.headerSubContainer}>
                 <TouchableOpacity
-                    activeOpacity={.8} disabled={isWrong}
+                    onPress={() => resetModalFunc(true)}
+                    activeOpacity={.8} disabled={isWrong||isReset}
                     style={styles.refreshIconContainer}>
                     <Image
                         source={require('../../../assets/icon.png')}
@@ -49,7 +50,7 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong }) 
                     </View>
                 </View>
                 <TouchableOpacity
-                    disabled={isWrong}
+                    disabled={isWrong||isReset}
                     activeOpacity={.8}
                     onPress={() => setIsDropDownOpen()}
                     style={styles.languageContainer}>
@@ -63,6 +64,7 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong }) 
             </View>
             <View style={styles.helpContainer}>
                 <TouchableOpacity
+                    disabled={isWrong||isReset}
                     activeOpacity={.8}
                     style={styles.helpSubContainer}>
                     <Text style={styles.help}>{`?`}</Text>
@@ -116,7 +118,7 @@ const Code = ({ v, i, callBack }) => {
         </View>
     )
 }
-export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFunc, isWrong }) => {
+export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFunc, isWrong, isReset,resetModalFunc }) => {
     const [codeSt, setCodeSt] = useState([])
     const [isLoader, setisLoader] = useState(false)
     const dispatch = useDispatch()
@@ -132,15 +134,16 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
             <View style={styles.answerFrameContainer}>
 
                 {isWrong ? <WrongModal currentUser={currentUser} wrongModalFunc={wrongModalFunc} /> :
-                    codeWithHints?.guessCode?.map((v, i) =>
-                        <Code v={v} i={i}
-                            callBack={(codeDigit) => {
-                                let arrayCopy = JSON.parse(JSON.stringify(codeSt));
-                                arrayCopy.splice(i, 1, codeDigit)
-                                setCodeSt(arrayCopy)
-                            }}
-                        />
-                    )
+                    isReset ? <ResetModal currentUser={currentUser} resetModalFunc={resetModalFunc} /> :
+                        codeWithHints?.guessCode?.map((v, i) =>
+                            <Code v={v} i={i}
+                                callBack={(codeDigit) => {
+                                    let arrayCopy = JSON.parse(JSON.stringify(codeSt));
+                                    arrayCopy.splice(i, 1, codeDigit)
+                                    setCodeSt(arrayCopy)
+                                }}
+                            />
+                        )
                 }
 
             </View>
@@ -149,25 +152,26 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
                 <Loader />
                 :
                 <View
-                    disabled={isWrong}
-                   
+
                     activeOpacity={.8} style={styles.checkBtn}>
                     <TouchableOpacity
-                     onPress={() => {
-                        console.log(codeSt, 'codeStcodeSt', codeWithHints.guessCode)
-                        setisLoader(true)
-                        if (JSON.stringify(codeSt) === JSON.stringify(codeWithHints.guessCode)) {//correct asnwer
-                            dispatch(correctAnswer(navigation, currentUser, setisLoader))
-                        } else {
-                            console.log("The arrays are different.");//wrong asnwer
+                    disabled={isWrong||isReset}
 
-                            setisLoader(false);
-                            dispatch(wrongAnswer(currentUser, navigation));
-                            wrongModalFunc(true);
+                        onPress={() => {
+                            console.log(codeSt, 'codeStcodeSt', codeWithHints.guessCode)
+                            setisLoader(true)
+                            if (JSON.stringify(codeSt) === JSON.stringify(codeWithHints.guessCode)) {//correct asnwer
+                                dispatch(correctAnswer(navigation, currentUser, setisLoader))
+                            } else {
+                                console.log("The arrays are different.");//wrong asnwer
 
-                        }
-                    }}
-                    style={{width:'50%',height:'100%',}}>
+                                setisLoader(false);
+                                dispatch(wrongAnswer(currentUser, navigation));
+                                wrongModalFunc(true);
+
+                            }
+                        }}
+                        style={{ width: '50%', height: '100%', }}>
 
                         <Image
                             source={require('../../../assets/check.png')}
@@ -186,6 +190,35 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
 
     )
 }
+
+export const ResetModal = ({ currentUser, resetModalFunc }) => {
+    return (
+        <View style={{ width: '105%', height: '100%',  }}>
+            <TouchableOpacity onPress={() => resetModalFunc(false)} style={{ position: "absolute", zIndex: 200, right: 10, }}>
+                <FontAwesome
+                    name='close'
+                    color={Colors.white}
+                    size={RFPercentage(5)}
+                    style={{ fontWeight: 'bold' }} />
+            </TouchableOpacity>
+
+            <View style={{ width: '100%', height: '100%', position: 'absolute', zIndex: 44, justifyContent: "center", alignItems: 'center' }}>
+                <TouchableOpacity onPress={() => resetModalFunc(false)} style={{ borderBottomColor: 'white', borderWidth: 1 }}>
+                    <Text style={{ color: Colors.white, padding: '2C%' }}>RESET CODE </Text>
+                </TouchableOpacity>
+            </View>
+
+            <Image
+                source={require('../../../assets/wrongcopy.png')}
+                style={{ width: '100%', height: 200, }}
+            />
+            <View style={{ position: "absolute", zIndex: 1, width: '100%', height: 200, justifyContent: 'flex-end', alignItems: 'center' }}>
+                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingRefresh + ' reset code left'} </Text>
+            </View>
+        </View>
+    )
+}
+
 export const WrongModal = ({ currentUser, wrongModalFunc }) => {
     return (
         <View style={{ width: '105%', height: '100%' }}>
