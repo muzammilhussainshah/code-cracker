@@ -74,8 +74,8 @@ export const getCode = (level, navigation) => {
                 const resetAction = CommonActions.reset({
                     index: 0,
                     routes: [{ name: 'MainScreen' }],
-                  });
-                  navigation.dispatch(resetAction);
+                });
+                navigation.dispatch(resetAction);
             } else {
                 dispatch(createCode(level, navigation))
             }
@@ -254,8 +254,8 @@ export const createCode = (level, navigation) => {
             const resetAction = CommonActions.reset({
                 index: 0,
                 routes: [{ name: 'MainScreen' }],
-              });
-              navigation.dispatch(resetAction);
+            });
+            navigation.dispatch(resetAction);
 
 
         } catch (error) {
@@ -375,7 +375,7 @@ const gettwoCW = (guessCode) => {
     return twoCW
 }
 
-export const correctAnswer = (navigation, currentUser,setisLoader) => {
+export const correctAnswer = (navigation, currentUser, setisLoader) => {
     return async (dispatch) => {
         await remoteConfig().fetchAndActivate(); //remote config for remainingRefresh,remainingWrongAttempt
         remoteConfig().setConfigSettings({
@@ -397,9 +397,9 @@ export const correctAnswer = (navigation, currentUser,setisLoader) => {
             const resetAction = CommonActions.reset({
                 index: 0,
                 routes: [{ name: 'LevelScreen' }],
-              });
-              
-              navigation.dispatch(resetAction);
+            });
+
+            navigation.dispatch(resetAction);
 
 
 
@@ -414,7 +414,7 @@ export const correctAnswer = (navigation, currentUser,setisLoader) => {
 }
 
 
-export const wrongAnswer = ( currentUser,navigation) => {
+export const wrongAnswer = (currentUser, navigation) => {
     return async (dispatch) => {
         try {
             let currentUserUpdate = currentUser;
@@ -424,8 +424,8 @@ export const wrongAnswer = ( currentUser,navigation) => {
             });
             const remainingRefresh = remoteConfig().getValue('remainingRefresh').asString();
             const remainingWrongAttempt = remoteConfig().getValue('remainingWrongAttempt').asString();
-            
-            if (currentUser.remainingWrongAttempt<2&&currentUser.level>0) {
+
+            if (currentUser.remainingWrongAttempt < 2 && currentUser.level > 0) {
                 // currentUserUpdate.remainingWrongAttempt = currentUser.remainingWrongAttempt-1
                 // dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
 
@@ -437,25 +437,51 @@ export const wrongAnswer = ( currentUser,navigation) => {
                 await userDocRef.update(currentUserUpdate);
                 dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
                 setTimeout(() => {
-                    dispatch(getCode(currentUserUpdate.level,navigation))
+                    dispatch(getCode(currentUserUpdate.level, navigation))
                 }, 2000);
 
 
 
 
-                
-            } else {
-                currentUserUpdate.remainingWrongAttempt = currentUser.remainingWrongAttempt-1
+
+            }
+            else if (currentUser.remainingWrongAttempt>0) {
+
+                currentUserUpdate.remainingWrongAttempt = currentUser.remainingWrongAttempt - 1
                 const userDocRef = firestore().collection('Users').doc(deviceId);
                 await userDocRef.update(currentUserUpdate);
                 dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
-                
             }
-            
-            
+
+
 
 
         } catch (error) {
+            console.error('Error incrementing score in Firestore document: ', error);
+        }
+    }
+}
+
+export const resetCode = (currentUser, resetModalFunc, setisLoader) => {
+    return async (dispatch) => {
+        let currentUserUpdate = currentUser;
+
+        try {
+            if (currentUser.remainingRefresh > 0) {
+                // currentUserUpdate.remainingWrongAttempt = currentUser.remainingWrongAttempt-1
+                // dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
+
+                currentUserUpdate.remainingRefresh = currentUser.remainingRefresh - 1;
+                const userDocRef = firestore().collection('Users').doc(deviceId);
+                await userDocRef.update(currentUserUpdate);
+                dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
+            }
+            resetModalFunc()
+            setisLoader(false)
+
+        } catch (error) {
+            resetModalFunc()
+            setisLoader(false)
             console.error('Error incrementing score in Firestore document: ', error);
         }
     }

@@ -18,7 +18,7 @@ import {
     useSelector
 } from 'react-redux';
 import Colors from '../../../styles/Colors';
-import { correctAnswer, wrongAnswer } from '../../../store/action/action';
+import { correctAnswer, wrongAnswer,resetCode } from '../../../store/action/action';
 import { appLanguages } from '../../../utilities/languageData';
 import Loader from '../../../components/Loader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -118,7 +118,7 @@ const Code = ({ v, i, callBack }) => {
         </View>
     )
 }
-export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFunc, isWrong, isReset,resetModalFunc }) => {
+export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFunc, isWrong, isReset,resetModalFunc,setCodeForUI }) => {
     const [codeSt, setCodeSt] = useState([])
     const [isLoader, setisLoader] = useState(false)
     const dispatch = useDispatch()
@@ -134,7 +134,7 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
             <View style={styles.answerFrameContainer}>
 
                 {isWrong ? <WrongModal currentUser={currentUser} wrongModalFunc={wrongModalFunc} /> :
-                    isReset ? <ResetModal currentUser={currentUser} resetModalFunc={resetModalFunc} /> :
+                    isReset ? <ResetModal currentUser={currentUser} resetModalFunc={resetModalFunc} setCodeForUI={setCodeForUI} setisLoader={setisLoader}/> :
                         codeWithHints?.guessCode?.map((v, i) =>
                             <Code v={v} i={i}
                                 callBack={(codeDigit) => {
@@ -191,7 +191,9 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
     )
 }
 
-export const ResetModal = ({ currentUser, resetModalFunc }) => {
+export const ResetModal = ({ currentUser, resetModalFunc,setCodeForUI,setisLoader }) => {
+    const dispatch = useDispatch()
+
     return (
         <View style={{ width: '105%', height: '100%',  }}>
             <TouchableOpacity onPress={() => resetModalFunc(false)} style={{ position: "absolute", zIndex: 200, right: 10, }}>
@@ -203,7 +205,14 @@ export const ResetModal = ({ currentUser, resetModalFunc }) => {
             </TouchableOpacity>
 
             <View style={{ width: '100%', height: '100%', position: 'absolute', zIndex: 44, justifyContent: "center", alignItems: 'center' }}>
-                <TouchableOpacity onPress={() => resetModalFunc(false)} style={{ borderBottomColor: 'white', borderWidth: 1 }}>
+                <TouchableOpacity onPress={() => {
+                            setisLoader(true)
+
+                setCodeForUI()
+                dispatch(resetCode(currentUser, resetModalFunc,setisLoader));
+
+                }} 
+                    style={{ borderBottomColor: 'white', borderWidth: 1 }}>
                     <Text style={{ color: Colors.white, padding: '2C%' }}>RESET CODE </Text>
                 </TouchableOpacity>
             </View>
