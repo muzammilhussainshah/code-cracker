@@ -24,6 +24,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 import { WrongModal } from './Components/Component';
 import { styles } from './styles';
+import { getItem } from '../../helpers/AsyncStorage';
 
 const MainScreen = ({ navigation, route }) => {
   const [isWrong, setisWrong] = useState(false)
@@ -40,24 +41,28 @@ const MainScreen = ({ navigation, route }) => {
 
   console.log(prevRoute, 'previousRouteName')
 
-  useEffect(() => {
+  useEffect(async () => {
     if (prevRoute?.name === "LevelScreen") {
       // setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)]);
       setCodeForUI()
 
     }
+    getDefaultLanguage()
+
   }, [isFocused])
+  const getDefaultLanguage = async () => {
+    const langData = await getItem('languagecode');
+    setselectedLanguage(langData.toUpperCase())
+  }
 
   useEffect(() => {
-    // setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)])
     setCodeForUI()
-
   }, [])
   const setCodeForUI = () => {
     setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)])
   }
 
-
+console.log(CodeHintsST,'CodeHintsSTCodeHintsST')
   return (
     <View style={styles.container}>
       <ImageBackground

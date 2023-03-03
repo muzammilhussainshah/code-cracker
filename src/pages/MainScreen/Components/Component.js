@@ -18,20 +18,24 @@ import {
     useSelector
 } from 'react-redux';
 import Colors from '../../../styles/Colors';
-import { correctAnswer, wrongAnswer,resetCode } from '../../../store/action/action';
+import { correctAnswer, wrongAnswer, resetCode } from '../../../store/action/action';
 import { appLanguages } from '../../../utilities/languageData';
 import Loader from '../../../components/Loader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+// import { DEFAULT_LANGUAGE } from './src/utilities';
 
 import { styles } from '../styles';
+import { DEFAULT_LANGUAGE } from '../../../utilities';
 
 export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong, isReset, resetModalFunc }) => {
+    // console.log(DEFAULT_LANGUAGE,'DEFAULT_LANGUAGEDEFAULT_LANGUAGE')
+
     return (
         <View style={styles.headerContainer}>
             <View style={styles.headerSubContainer}>
                 <TouchableOpacity
                     onPress={() => resetModalFunc(true)}
-                    activeOpacity={.8} disabled={isWrong||isReset}
+                    activeOpacity={.8} disabled={isWrong || isReset}
                     style={styles.refreshIconContainer}>
                     <Image
                         source={require('../../../assets/icon.png')}
@@ -41,16 +45,14 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong, is
                     <View style={styles.scoreBorderContainer}>
                         <View style={[styles.scoreBorderContainer, styles.scoreSubContainer]}>
                             <Text style={styles.score}>{
-                                // t('fullName')
                                 t('yourScore')
-                                // `YOUR SCORE`
                             }</Text>
                             <Text style={styles.score}>{score}</Text>
                         </View>
                     </View>
                 </View>
                 <TouchableOpacity
-                    disabled={isWrong||isReset}
+                    disabled={isWrong || isReset}
                     activeOpacity={.8}
                     onPress={() => setIsDropDownOpen()}
                     style={styles.languageContainer}>
@@ -64,19 +66,22 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong, is
             </View>
             <View style={styles.helpContainer}>
                 <TouchableOpacity
-                    disabled={isWrong||isReset}
+                    disabled={isWrong || isReset}
                     activeOpacity={.8}
                     style={styles.helpSubContainer}>
-                    <Text style={styles.help}>{`?`}</Text>
-                    <Text style={styles.help}>{`Help`}</Text>
+                    {selectedLanguage == 'EN' &&
+                        <Text style={styles.help}>{`?`}</Text>
+                    }
+                    <Text style={styles.help}>{t('help')}</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.msgContainer}>
+                <Text style={styles.whatIsCodeText}>{t('WhatIsCode')}</Text>
                 <Image
-                    source={require('../../../assets/whatIsCode.png')}
+                    source={require('../../../assets/whatIsCodeBg.png')}
                     style={styles.whatIsCode} />
             </View>
-        </View>
+        </View >
     )
 }
 const Code = ({ v, i, callBack }) => {
@@ -118,7 +123,7 @@ const Code = ({ v, i, callBack }) => {
         </View>
     )
 }
-export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFunc, isWrong, isReset,resetModalFunc,setCodeForUI }) => {
+export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFunc, isWrong, isReset, resetModalFunc, setCodeForUI }) => {
     const [codeSt, setCodeSt] = useState([])
     const [isLoader, setisLoader] = useState(false)
     const dispatch = useDispatch()
@@ -134,7 +139,7 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
             <View style={styles.answerFrameContainer}>
 
                 {isWrong ? <WrongModal currentUser={currentUser} wrongModalFunc={wrongModalFunc} /> :
-                    isReset ? <ResetModal currentUser={currentUser} resetModalFunc={resetModalFunc} setCodeForUI={setCodeForUI} setisLoader={setisLoader}/> :
+                    isReset ? <ResetModal currentUser={currentUser} resetModalFunc={resetModalFunc} setCodeForUI={setCodeForUI} setisLoader={setisLoader} /> :
                         codeWithHints?.guessCode?.map((v, i) =>
                             <Code v={v} i={i}
                                 callBack={(codeDigit) => {
@@ -155,7 +160,7 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
 
                     activeOpacity={.8} style={styles.checkBtn}>
                     <TouchableOpacity
-                    disabled={isWrong||isReset}
+                        disabled={isWrong || isReset}
 
                         onPress={() => {
                             console.log(codeSt, 'codeStcodeSt', codeWithHints.guessCode)
@@ -171,31 +176,32 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
 
                             }
                         }}
-                        style={{ width: '50%', height: '100%', }}>
-
+                        style={{ width: '50%', height: '100%', justifyContent: "center", alignItems: 'center' }}>
+                        <Text style={styles.whatIsCodeText}>{t('Check')}</Text>
                         <Image
-                            source={require('../../../assets/check.png')}
+                            source={require('../../../assets/checkcopy.png')}
                             style={styles.check} />
                     </TouchableOpacity>
                 </View>
 
             }
 
-            <View style={{ flex: 2, }}>
+            <View style={{ flex: 2.1, justifyContent: "center", alignItems: 'center', backgroundColor: 'red' }}>
+                <Text style={styles.whatIsCodeText}>{t('hint')}</Text>
                 <Image
-                    source={require('../../../assets/hints.png')}
+                    source={require('../../../assets/hintsNew.png')}
                     style={styles.hint} />
             </View>
-        </View>
+        </View >
 
     )
 }
 
-export const ResetModal = ({ currentUser, resetModalFunc,setCodeForUI,setisLoader }) => {
+export const ResetModal = ({ currentUser, resetModalFunc, setCodeForUI, setisLoader }) => {
     const dispatch = useDispatch()
 
     return (
-        <View style={{ width: '105%', height: '100%',  }}>
+        <View style={{ width: '105%', height: '100%', }}>
             <TouchableOpacity onPress={() => resetModalFunc(false)} style={{ position: "absolute", zIndex: 200, right: 10, }}>
                 <FontAwesome
                     name='close'
@@ -206,13 +212,11 @@ export const ResetModal = ({ currentUser, resetModalFunc,setCodeForUI,setisLoade
 
             <View style={{ width: '100%', height: '100%', position: 'absolute', zIndex: 44, justifyContent: "center", alignItems: 'center' }}>
                 <TouchableOpacity onPress={() => {
-                            setisLoader(true)
-
-                dispatch(resetCode(currentUser, resetModalFunc,setisLoader,setCodeForUI));
-
-                }} 
+                    setisLoader(true)
+                    dispatch(resetCode(currentUser, resetModalFunc, setisLoader, setCodeForUI));
+                }}
                     style={{ borderBottomColor: 'white', borderWidth: 1 }}>
-                    <Text style={{ color: Colors.white, padding: '2%' }}>RESET CODE </Text>
+                    <Text style={{ color: Colors.white, padding: '2%' }}>{t('resetCode')}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -221,7 +225,7 @@ export const ResetModal = ({ currentUser, resetModalFunc,setCodeForUI,setisLoade
                 style={{ width: '100%', height: 200, }}
             />
             <View style={{ position: "absolute", zIndex: 1, width: '100%', height: 200, justifyContent: 'flex-end', alignItems: 'center' }}>
-                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingRefresh + ' reset code left'} </Text>
+                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingRefresh + t('resetcodeleft')} </Text>
             </View>
         </View>
     )
@@ -243,10 +247,21 @@ export const WrongModal = ({ currentUser, wrongModalFunc }) => {
             // style={{ width: 200, height: 200, elevation: 5 }}
             />
             <View style={{ position: "absolute", zIndex: 1, width: '100%', height: 200, justifyContent: 'flex-end', alignItems: 'center' }}>
-                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingWrongAttempt < 2 ? 'you are demoted one level' : currentUser.remainingWrongAttempt - 1 + ' wrong atempt left'} </Text>
+                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingWrongAttempt < 2 ? t('demoteMsg') : currentUser.remainingWrongAttempt - 1 + t('wrongAttempMsg')} </Text>
             </View>
         </View>
     )
+}
+const getkeyLanguage = (key) => {
+    if (key == "Nothing correct") return t('hint1')
+    if (key == "1 number correct and well placed") return t('hint2')
+    if (key == "1 number correct and well placed.") return t('hint3')
+    if (key == "2 number correct and well placed") return t('hint4')
+    if (key == "1 number correct but incorrectly placed") return t('hint5')
+    if (key == "1 number correct but incorrectly placed.") return t('hint6')
+    if (key == "1 number correct but incorrectly placed.,") return t('hint7')
+    if (key == "2 number correct but incorrectly placed") return t('hint8')
+    if (key == "2 number correct but incorrectly placed.") return t('hint9')
 }
 export const Codes = ({ codeWithHints }) => {
     console.log(codeWithHints, 'codeWithHintsijii')
@@ -275,7 +290,7 @@ export const Codes = ({ codeWithHints }) => {
                                         source={require('../../../assets/hintframe.png')}
                                         resizeMode="stretch"
                                         style={styles.codeFrame}>
-                                        <Text style={[styles.score, styles.resultMsg]}>{key}</Text>
+                                        <Text style={[styles.score, styles.resultMsg]}>{getkeyLanguage(key)}</Text>
                                     </ImageBackground>
                                 </View>
                             </View>
@@ -324,7 +339,7 @@ export const DropDown = ({ setselectedLanguage, setIsDropDownOpen, isDropDownOpe
 
     const onLanguageSelect = (langId) => {
         let lang = appLanguages.find((item) => item.id === langId)
-        console.log(lang?.code, 'lang?.codelang?.code')
+        console.log(lang?.code, 'lang?.codelang?.code', appLanguages)
         i18n.changeLanguage(lang?.code)
         setLanguageAsync(lang?.code)
         // setSelected(langId)
@@ -337,6 +352,7 @@ export const DropDown = ({ setselectedLanguage, setIsDropDownOpen, isDropDownOpe
                     <TouchableOpacity
                         activeOpacity={.8}
                         onPress={() => {
+                            // console.log(item, 'itemitemitem')
                             onLanguageSelect(item.id)
                             setselectedLanguage(item.code)
                             setIsDropDownOpen(!isDropDownOpen)

@@ -14,8 +14,9 @@ import Colors from '../../styles/Colors';
 import { styles } from './styles';
 import { onShare, rateUs } from './Components/Component';
 import { CommonActions } from '@react-navigation/native';
+import { t } from 'i18next';
 
-const LevelScreen = ({navigation }) => {
+const LevelScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
@@ -24,20 +25,20 @@ const LevelScreen = ({navigation }) => {
         resizeMode="cover"
         style={styles.bgImageStyle}>
         <TouchableOpacity
-        onPress={()=>{
+          onPress={() => {
 
 
-const resetAction = CommonActions.reset({
-  index: 0,
-  routes: [{ name: 'MainScreen' }],
-});
+            const resetAction = CommonActions.reset({
+              index: 0,
+              routes: [{ name: 'MainScreen' }],
+            });
 
-navigation.dispatch(resetAction);
-          
-          
-        }
-     
-        }
+            navigation.dispatch(resetAction);
+
+
+          }
+
+          }
           activeOpacity={.8}
           style={[styles.nextContainer, { flex: 6, justifyContent: "flex-end" }]}>
 
@@ -48,7 +49,7 @@ navigation.dispatch(resetAction);
             style={{ fontWeight: 'bold' }} />
           <Text
             style={styles.next}
-          >{`Next`}</Text>
+          >{t('next')}</Text>
         </TouchableOpacity>
         <View style={styles.buttonContainer}>
 
@@ -60,8 +61,8 @@ navigation.dispatch(resetAction);
               style={styles.starIcon}
             />
             <Text
-              style={styles.next}
-            >{`Rate Us`}</Text>
+              style={[styles.next]}
+            >{t('rateUs')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={.8}
@@ -73,7 +74,7 @@ navigation.dispatch(resetAction);
             />
             <Text
               style={styles.next}
-            >{`Next`}</Text>
+            >{t('Share')}</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground >

@@ -12,6 +12,7 @@ import {
   useDispatch,useSelector
 } from 'react-redux';
 import remoteConfig from '@react-native-firebase/remote-config';
+import { t } from 'i18next';
 
 
 const Splash = ({ navigation}) => {
@@ -52,7 +53,7 @@ const Splash = ({ navigation}) => {
         <Loader />
         <Text
           style={styles.next}
-        >{`CODE CRACKER`}</Text>
+        >{t('codeCracker')}</Text>
       </ImageBackground >
 
     </View >

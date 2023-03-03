@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         height: "100%", width: '100%', justifyContent: "center", alignItems: "center"
     },
     nextContainer: { alignItems: "center" },
-    next: { fontSize: RFPercentage(3), fontWeight: 'bold', color: Colors.white, fontStyle: "italic", fontWeight: 'bold' },
+    next: { fontSize: RFPercentage(3), fontWeight: 'bold', color: Colors.white, fontStyle: "italic", fontWeight: 'bold', },
     starIcon: {
         height: RFPercentage(10),
         width: RFPercentage(10),

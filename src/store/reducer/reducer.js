@@ -3,6 +3,7 @@ import ActionTypes from '../constant/constant';
 const INITIAL_STATE = {
      currentUser: {}, 
      codeWithHints: [], 
+     selectedLanguage:'en'
     //  videoDetail: [], 
 }
 
@@ -12,6 +13,11 @@ export default (state = INITIAL_STATE, action) => {
             return ({
                 ...state,
                 currentUser: action.payload
+            }) 
+        case ActionTypes.SELECTEDLANGUAGE:
+            return ({
+                ...state,
+                selectedLanguage: action.payload
             }) 
         case ActionTypes.CODEWITHHINTS:
             return ({

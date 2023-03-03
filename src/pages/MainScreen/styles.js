@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
         top: "20%",
         left: '25%',
         fontWeight: '600', color: Colors.secondary, fontStyle: "italic",
-        textTransform:'uppercase'
+        textTransform: 'uppercase'
     },
     score: { fontSize: RFPercentage(1.7), fontWeight: 'bold', color: Colors.secondary, fontStyle: "italic" },
     codeAnswerSubContainer: {
@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     },
     frameIcon: { height: RFPercentage(8), width: '100%', resizeMode: 'contain', justifyContent: "center", alignItems: 'center' },
     whatIsCode: {
-        height: '80%', width: '80%', resizeMode: 'contain',
+        height: '70%', width: '70%', resizeMode: 'contain',
 
         borderWidth: 0,
         shadowColor: "#000",
@@ -50,8 +50,6 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.32,
         shadowRadius: 5.46,
-        // elevation: 9,
-
     },
     help: { fontSize: RFPercentage(2.), fontWeight: '600', color: Colors.black, fontStyle: "italic" },
     helpSubContainer: {
@@ -85,9 +83,12 @@ export const styles = StyleSheet.create({
         width: '100%', backgroundColor: 'rgba(0,0,0,0.6)'
     },
     hint: {
-        height: '100%', width: '100%', marginLeft: '2%'
-        , opacity: .8
-        , resizeMode: 'contain'
+        height: '100%', width: '100%',
+        // marginLeft: '2%'
+        // , 
+        // opacity: .8
+        // , 
+        // resizeMode: 'contain'
     },
     codeSubContainer: { flex: 1, borderWidth: 1, marginVertical: RFPercentage(.5), flexDirection: 'row', borderColor: Colors.primary },
     frameContainer: { flex: 1, flexDirection: 'row' },
@@ -98,12 +99,12 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: 'center'
     },
-    resultMsg: { textAlign: 'center', letterSpacing: RFPercentage(-.15), width: '80%', fontSize: RFPercentage(1.3) },
+    resultMsg: { textAlign: 'center',   width: '80%', fontSize: RFPercentage(1.6) },
     check: { height: '100%', width: '100%', resizeMode: 'contain' },
     resultMsgContainer: { flex: 1, backgroundColor: Colors.black },
     answerFrameContainer: { flex: 6, justifyContent: "center", flexDirection: 'row' },
     checkBtn: { flex: 2, justifyContent: "center", alignItems: "center", },
-    dropDownVal: { color: Colors.secondary, fontWeight: "bold", fontStyle: 'italic' ,textTransform:"uppercase"},
+    dropDownVal: { color: Colors.secondary, fontWeight: "bold", fontStyle: 'italic', textTransform: "uppercase" },
     dropDownContainer: {
         borderColor: Colors.primary,
         backgroundColor: Colors.black,
@@ -116,5 +117,15 @@ export const styles = StyleSheet.create({
         top: '13%',
         right: '4.5%',
         width: RFPercentage(5)
+    },
+    whatIsCodeText:
+    {
+        position: 'absolute',
+        fontSize: RFPercentage(1.9),
+        // top: "20%",
+        zIndex: 2,
+        // left: '25%',
+        fontWeight: '600', color: Colors.white, fontStyle: "italic",
+        textTransform: 'uppercase'
     },
 });
