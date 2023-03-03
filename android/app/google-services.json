@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "465859889528",
+    "project_id": "codecracker-d5f11",
+    "storage_bucket": "codecracker-d5f11.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465859889528:android:16e9901b1cf5670258e08d",
+        "android_client_info": {
+          "package_name": "com.codefinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465859889528-0h37ec6qttlr1p5e66is65so7mor0tt2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFJrxitBBOz9Wsrz8iGK07ucAPEbx2JAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465859889528-0h37ec6qttlr1p5e66is65so7mor0tt2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "465859889528-vdnqejhqp2sghd2vb8cg1b67l6gdq06q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.codeFinder"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -212,7 +212,7 @@ export const ResetModal = ({ currentUser, resetModalFunc,setCodeForUI,setisLoade
 
                 }} 
                     style={{ borderBottomColor: 'white', borderWidth: 1 }}>
-                    <Text style={{ color: Colors.white, padding: '2C%' }}>RESET CODE </Text>
+                    <Text style={{ color: Colors.white, padding: '2%' }}>RESET CODE </Text>
                 </TouchableOpacity>
             </View>
 
