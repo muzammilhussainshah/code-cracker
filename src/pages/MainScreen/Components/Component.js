@@ -208,8 +208,7 @@ export const ResetModal = ({ currentUser, resetModalFunc,setCodeForUI,setisLoade
                 <TouchableOpacity onPress={() => {
                             setisLoader(true)
 
-                setCodeForUI()
-                dispatch(resetCode(currentUser, resetModalFunc,setisLoader));
+                dispatch(resetCode(currentUser, resetModalFunc,setisLoader,setCodeForUI));
 
                 }} 
                     style={{ borderBottomColor: 'white', borderWidth: 1 }}>

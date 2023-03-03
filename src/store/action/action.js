@@ -462,7 +462,7 @@ export const wrongAnswer = (currentUser, navigation) => {
     }
 }
 
-export const resetCode = (currentUser, resetModalFunc, setisLoader) => {
+export const resetCode = (currentUser, resetModalFunc, setisLoader,setCodeForUI) => {
     return async (dispatch) => {
         let currentUserUpdate = currentUser;
 
@@ -475,6 +475,7 @@ export const resetCode = (currentUser, resetModalFunc, setisLoader) => {
                 const userDocRef = firestore().collection('Users').doc(deviceId);
                 await userDocRef.update(currentUserUpdate);
                 dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
+                setCodeForUI();
             }
             resetModalFunc()
             setisLoader(false)
