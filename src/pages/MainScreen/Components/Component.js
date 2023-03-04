@@ -190,7 +190,7 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
 
             }
 
-            <View style={{ flex: 2.1, justifyContent: "center", alignItems: 'center', backgroundColor: 'red' }}>
+            <View style={{ flex: 2.1, justifyContent: "center", alignItems: 'center',  }}>
                 <Text style={styles.whatIsCodeText}>{t('hint')}</Text>
                 <Image
                     source={require('../../../assets/hintsNew.png')}
@@ -226,9 +226,9 @@ export const ResetModal = ({ currentUser, resetModalFunc, setCodeForUI, setisLoa
 
             <Image
                 source={require('../../../assets/wrongcopy.png')}
-                style={{ width: '100%', height: 200, }}
+                style={{ width: '100%', height: RFPercentage(25), }}
             />
-            <View style={{ position: "absolute", zIndex: 1, width: '100%', height: 200, justifyContent: 'flex-end', alignItems: 'center' }}>
+            <View style={{ position: "absolute", zIndex: 1, width: '100%', height: RFPercentage(25), justifyContent: 'flex-end', alignItems: 'center' }}>
                 <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingRefresh + t('resetcodeleft')} </Text>
             </View>
         </View>
@@ -247,11 +247,11 @@ export const WrongModal = ({ currentUser, wrongModalFunc }) => {
             </TouchableOpacity>
             <Image
                 source={require('../../../assets/wrong.jpg')}
-                style={{ width: '100%', height: 200, }}
+                style={{ width: '100%', height: RFPercentage(25), }}
             // style={{ width: 200, height: 200, elevation: 5 }}
             />
-            <View style={{ position: "absolute", zIndex: 1, width: '100%', height: 200, justifyContent: 'flex-end', alignItems: 'center' }}>
-                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingWrongAttempt < 2 ? t('demoteMsg') : currentUser.remainingWrongAttempt - 1 + t('wrongAttempMsg')} </Text>
+            <View style={{ position: "absolute", zIndex: 1, width: '100%', height: RFPercentage(25), justifyContent: 'flex-end', alignItems: 'center' }}>
+                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingWrongAttempt < 2 ? t('demoteMsg') : currentUser.remainingWrongAttempt - 1 +' '+ t('wrongAttempMsg')} </Text>
             </View>
         </View>
     )

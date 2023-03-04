@@ -65,7 +65,7 @@ export const getCode = (level, navigation) => {
 
             const userDocRef = firestore().collection('CodeLevels').doc(levelRange);
             const userDocSnapshot = await userDocRef.get();
-
+            console.log(level, levelRange,'levelRange')
             if (userDocSnapshot.exists) {
                 const codesWithHints = userDocSnapshot.data();
                 dispatch({ type: ActionTypes.CODEWITHHINTS, payload: codesWithHints.codesWithHints });
@@ -392,7 +392,7 @@ export const correctAnswer = (navigation, currentUser, setisLoader) => {
             await userDocRef.update(currentUserUpdate);
             dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
             setisLoader(false)
-            await dispatch(getCode(currentUser.level + 1, navigation));
+            await dispatch(getCode(currentUser.level, navigation));
             // navigation.navigate('LevelScreen');
             const resetAction = CommonActions.reset({
                 index: 0,
