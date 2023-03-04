@@ -58,8 +58,12 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong, is
                     style={styles.languageContainer}>
                     <ImageBackground
                         source={require('../../../assets/lang2.png')}
-                        style={styles.enContainer} >
-                        <Text style={styles.language}>{selectedLanguage}</Text>
+                        style={styles.enContainer}
+                        resizeMode='contain'>
+                        <Text style={
+                            styles.language
+                            // {}
+                        }>{selectedLanguage}</Text>
                     </ImageBackground>
                 </TouchableOpacity>
 
@@ -268,7 +272,7 @@ export const Codes = ({ codeWithHints }) => {
     return (
         <View style={[styles.codeContainer, { paddingBottom: RFPercentage(3) }]}>
 
-            {
+            {Platform.OS === 'ios' ?
                 Object.keys(codeWithHints).map((key, index) => {
                     if (key !== 'guessCode')
                         return (
@@ -296,6 +300,35 @@ export const Codes = ({ codeWithHints }) => {
                             </View>
                         )
                 })
+                :
+
+                Object.keys(codeWithHints).map((key, index) => {
+                    if (key !== 'guessCode')
+                        return (
+                            <View style={styles.codeSubContainer} key={index.toString()}>
+                                <View style={styles.frameContainer}>
+                                    {codeWithHints[key].map((val, index) => (
+                                        <TouchableOpacity activeOpacity={.8} style={{ flex: 1 }} key={index.toString()} >
+                                            <ImageBackground
+                                                source={require('../../../assets/numberFrame.png')}
+                                                resizeMode="contain"
+                                                style={[styles.frameIcon, { height: '100%', }]} >
+                                                <Text style={[styles.score, { fontSize: RFPercentage(2.6) }]}>{val}</Text>
+                                            </ImageBackground>
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
+                                <View style={styles.resultMsgContainer}>
+                                    <ImageBackground
+                                        source={require('../../../assets/hintframe.png')}
+                                        resizeMode="stretch"
+                                        style={styles.codeFrame}>
+                                        <Text style={[styles.score, styles.resultMsg]}>{getkeyLanguage(key)}</Text>
+                                    </ImageBackground>
+                                </View>
+                            </View>
+                        )
+                }).reverse()
             }
 
 

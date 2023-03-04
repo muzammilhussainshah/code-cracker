@@ -23,7 +23,6 @@ export const getUser = (navigation) => {
         });
         const remainingRefresh = remoteConfig().getValue('remainingRefresh').asString();
         const remainingWrongAttempt = remoteConfig().getValue('remainingWrongAttempt').asString();
-
         try {
             const userDocRef = firestore().collection('Users').doc(deviceId);
             const userDocSnapshot = await userDocRef.get();
@@ -385,13 +384,14 @@ export const correctAnswer = (navigation, currentUser, setisLoader) => {
         const remainingWrongAttempt = remoteConfig().getValue('remainingWrongAttempt').asString();
         try {
             let currentUserUpdate = currentUser;
-            currentUserUpdate.level = currentUser.level + 1;
-            currentUserUpdate.score = currentUser.score + 1;
+            currentUserUpdate.level = Number(currentUser.level) + 1;
+            currentUserUpdate.score = Number(currentUser.score) + 1;
             currentUserUpdate.remainingRefresh = remainingRefresh;
             currentUserUpdate.remainingWrongAttempt = remainingWrongAttempt
             const userDocRef = firestore().collection('Users').doc(deviceId);
             await userDocRef.update(currentUserUpdate);
             dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
+            setisLoader(false)
             await dispatch(getCode(currentUser.level + 1, navigation));
             // navigation.navigate('LevelScreen');
             const resetAction = CommonActions.reset({
@@ -404,7 +404,6 @@ export const correctAnswer = (navigation, currentUser, setisLoader) => {
 
 
             console.log('Score incremented in Firestore document.');
-            setisLoader(false)
 
         } catch (error) {
             console.error('Error incrementing score in Firestore document: ', error);
@@ -429,8 +428,8 @@ export const wrongAnswer = (currentUser, navigation) => {
                 // currentUserUpdate.remainingWrongAttempt = currentUser.remainingWrongAttempt-1
                 // dispatch({ type: ActionTypes.CURRENTUSER, payload: currentUserUpdate });
 
-                currentUserUpdate.level = currentUser.level - 1;
-                currentUserUpdate.score = currentUser.score - 1;
+                currentUserUpdate.level = Number(currentUser.level) - 1;
+                currentUserUpdate.score = Number(currentUser.score) - 1;
                 currentUserUpdate.remainingRefresh = remainingRefresh;
                 currentUserUpdate.remainingWrongAttempt = remainingWrongAttempt
                 const userDocRef = firestore().collection('Users').doc(deviceId);
@@ -445,7 +444,7 @@ export const wrongAnswer = (currentUser, navigation) => {
 
 
             }
-            else if (currentUser.remainingWrongAttempt>0) {
+            else if (currentUser.remainingWrongAttempt > 0) {
 
                 currentUserUpdate.remainingWrongAttempt = currentUser.remainingWrongAttempt - 1
                 const userDocRef = firestore().collection('Users').doc(deviceId);
@@ -462,7 +461,7 @@ export const wrongAnswer = (currentUser, navigation) => {
     }
 }
 
-export const resetCode = (currentUser, resetModalFunc, setisLoader,setCodeForUI) => {
+export const resetCode = (currentUser, resetModalFunc, setisLoader, setCodeForUI) => {
     return async (dispatch) => {
         let currentUserUpdate = currentUser;
 

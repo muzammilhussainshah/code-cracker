@@ -41,11 +41,10 @@ const MainScreen = ({ navigation, route }) => {
 
   console.log(prevRoute, 'previousRouteName')
 
-  useEffect(async () => {
+  useEffect(() => {
     if (prevRoute?.name === "LevelScreen") {
       // setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)]);
       setCodeForUI()
-
     }
     getDefaultLanguage()
 
@@ -62,7 +61,7 @@ const MainScreen = ({ navigation, route }) => {
     setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)])
   }
 
-console.log(CodeHintsST,'CodeHintsSTCodeHintsST')
+  console.log(CodeHintsST, 'CodeHintsSTCodeHintsST')
   return (
     <View style={styles.container}>
       <ImageBackground
