@@ -24,4 +24,16 @@ export const styles = StyleSheet.create({
         resizeMode: 'contain'
     },
     buttonContainer: { flexDirection: 'row', flex: 4, width: '100%', justifyContent: "space-evenly" },
+    elevation: {
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 6,
+        },
+        shadowOpacity: 0.39,
+        shadowRadius: 8.30,
+
+        elevation: 13,
+    }
 });

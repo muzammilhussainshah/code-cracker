@@ -29,6 +29,8 @@ export const languageData = [
             hint7: "1 number correct but incorrectly placed.,",
             hint8: "2 number correct but incorrectly placed",
             hint9: "2 number correct but incorrectly placed.",
+            helpText: 'Crack the Code is a mobile application game, which users can play to guess the code. The system will provide hints to the user to assist them in guessing the code. The system will provide the feedback to the user indicating if their guess was correct or not. If the guess is correct, user will get one point and move one level up and if the user failed to guess correctly three times in a row, the user will be demoted one level. The higher level you go, the more difficult it gets to guess the code. The system will allow user to reset the code for current level. This system is multi-language and users can select the preferred language from the list of languages.',
+            howtoPlay:"how to Play",
             
         }
     },
@@ -36,6 +38,7 @@ export const languageData = [
         locale: 'bg',
         translation: {
             yourScore: "ТВОЯТ РЕЗУЛТАТ",
+            helpText: 'Crack the Code е игра за мобилно приложение, която потребителите могат да играят, за да познаят кода. Системата ще предостави съвети на потребителя, за да му помогне да отгатне кода. Системата ще предостави обратна връзка на потребителя, като посочи дали тяхното предположение е било правилно или не. Ако предположението е правилно, потребителят ще получи една точка и ще премине едно ниво нагоре и ако потребителят не успее да познае правилно три пъти подред, потребителят ще бъде понижен с едно ниво. Колкото по-високо ниво отивате, толкова по-трудно става отгатването на кода. Системата ще позволи на потребителя да нулира кода за текущото ниво. Тази система е многоезична и потребителите могат да избират предпочитания език от списъка с езици.',
             codeCracker: "КРЕКЕР НА КОД",
             help: "Помогне",
             hint1: "Нищо правилно",
@@ -58,6 +61,7 @@ export const languageData = [
             resetcodeleft: " оставен код за нулиране",
             rateUs: "Оцени ни",
             next: "Следващия",
+            howtoPlay:"как да играя",
         }
     },
     {
@@ -75,6 +79,7 @@ export const languageData = [
             hint8: "2 numara doğru fakat yanlış yerleştirilmiş",
             hint9: "2 numara doğru fakat yanlış yerleştirilmiş.",
             Share: "Paylaşmak",
+            helpText: 'Crack the Code, kullanıcıların kodu tahmin etmek için oynayabilecekleri bir mobil uygulama oyunudur. Sistem, kodu tahmin etmelerine yardımcı olmak için kullanıcıya ipuçları sağlayacaktır. Sistem kullanıcıya tahmininin doğru olup olmadığını gösteren geri bildirim sağlayacaktır. Tahmin doğruysa, kullanıcı bir puan alır ve bir seviye yükselir ve kullanıcı arka arkaya üç kez doğru tahminde bulunmazsa, kullanıcı bir seviye düşer. Seviye ne kadar yüksek olursa, kodu tahmin etmek o kadar zorlaşır. Sistem, kullanıcının mevcut seviye için kodu sıfırlamasına izin verecektir. Bu sistem çok dillidir ve kullanıcılar dil listesinden tercih ettikleri dili seçebilirler.',
             help: "Yardım",
             hint1: "Hiçbir şey doğru değil",
             fullName: 'Tam adınız',
@@ -86,6 +91,7 @@ export const languageData = [
             rateUs: "Bizi değerlendirin",
             resetCode: "SIFIRLAMA KODU ",
             resetcodeleft: " kodu sıfırla sola ",
+            howtoPlay:"nasıl oynanır",
         }
     }
     ,
@@ -115,6 +121,8 @@ export const languageData = [
             hint: "indice",
             resetCode: "Réinitialiser le code ",
             resetcodeleft: " Réinitialiser le code laissé ",
+            helpText: "Crack the Code est un jeu d'application mobile auquel les utilisateurs peuvent jouer pour deviner le code. Le système fournira des conseils à l'utilisateur pour l'aider à deviner le code. Le système fournira une rétroaction à l'utilisateur indiquant si sa supposition était correcte ou non. Si l'estimation est correcte, l'utilisateur obtiendra un point et montera d'un niveau et si l'utilisateur n'a pas réussi à deviner correctement trois fois de suite, l'utilisateur sera rétrogradé d'un niveau. Plus vous montez de niveau, plus il devient difficile de deviner le code. Le système permettra à l'utilisateur de réinitialiser le code pour le niveau actuel. Ce système est multilingue et les utilisateurs peuvent sélectionner la langue préférée dans la liste des langues.",
+            howtoPlay:"comment jouer",
         }
     }
     ,
@@ -143,7 +151,9 @@ export const languageData = [
             Check: "Überprüfen",
             hint: "Hinweis",
             resetCode: "CODE ZURÜCKSETZEN ",
+            helpText: 'Crack the Code ist ein mobiles Anwendungsspiel, das Benutzer spielen können, um den Code zu erraten. Das System gibt dem Benutzer Hinweise, um ihn beim Erraten des Codes zu unterstützen. Das System liefert dem Benutzer eine Rückmeldung, die angibt, ob seine Vermutung richtig war oder nicht. Wenn der Tipp richtig ist, erhält der Benutzer einen Punkt und steigt eine Ebene auf. Wenn der Benutzer dreimal hintereinander nicht richtig geraten hat, wird der Benutzer um eine Ebene herabgestuft. Je höher Sie aufsteigen, desto schwieriger wird es, den Code zu erraten. Das System erlaubt dem Benutzer, den Code für das aktuelle Level zurückzusetzen. Dieses System ist mehrsprachig und Benutzer können die bevorzugte Sprache aus der Liste der Sprachen auswählen.',
             resetcodeleft: " Code zurücksetzen übrig ",
+            howtoPlay:"Spielanleitung",
         }
     }
     ,
@@ -173,6 +183,8 @@ export const languageData = [
             resetcodeleft: " código de reinicio a la izquierda ",
             next: "Próxima",
             rateUs: "Nos califica",
+            helpText: 'Crack the Code es un juego de aplicación móvil, que los usuarios pueden jugar para adivinar el código. El sistema proporcionará pistas al usuario para ayudarlo a adivinar el código. El sistema proporcionará la retroalimentación al usuario indicando si su suposición fue correcta o no. Si la suposición es correcta, el usuario obtendrá un punto y subirá un nivel y si el usuario no pudo adivinar correctamente tres veces seguidas, el usuario será degradado un nivel. Cuanto más alto sea el nivel, más difícil será adivinar el código. El sistema permitirá al usuario restablecer el código para el nivel actual. Este sistema es multilenguaje y los usuarios pueden seleccionar el idioma preferido de la lista de idiomas.',
+            howtoPlay:"cómo jugar",
         }
     }
 ];

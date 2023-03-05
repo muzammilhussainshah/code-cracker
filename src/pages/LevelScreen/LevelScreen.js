@@ -10,6 +10,9 @@ import {
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import Entypo from 'react-native-vector-icons/Entypo'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import Colors from '../../styles/Colors';
 import { styles } from './styles';
 import { onShare, rateUs } from './Components/Component';
@@ -26,19 +29,12 @@ const LevelScreen = ({ navigation }) => {
         style={styles.bgImageStyle}>
         <TouchableOpacity
           onPress={() => {
-
-
             const resetAction = CommonActions.reset({
               index: 0,
               routes: [{ name: 'MainScreen' }],
             });
-
             navigation.dispatch(resetAction);
-
-
-          }
-
-          }
+          }}
           activeOpacity={.8}
           style={[styles.nextContainer, { flex: 6, justifyContent: "flex-end" }]}>
 
@@ -51,14 +47,17 @@ const LevelScreen = ({ navigation }) => {
             style={styles.next}
           >{t('next')}</Text>
         </TouchableOpacity>
-        <View style={styles.buttonContainer}>
+        <View style={[styles.buttonContainer]}>
 
           <TouchableOpacity
             onPress={rateUs}
             activeOpacity={.8}
-            style={styles.nextContainer}>
-            <Image source={require('../../assets/star.png')}
-              style={styles.starIcon}
+            style={styles.nextContainer}> 
+            <MaterialIcons
+              style={styles.elevation}
+              name="star-rate"
+              color={Colors.orange}
+              size={RFPercentage(10)}
             />
             <Text
               style={[styles.next]}
@@ -68,10 +67,12 @@ const LevelScreen = ({ navigation }) => {
             activeOpacity={.8}
             style={styles.nextContainer}
             onPress={() => { onShare() }}
-          >
-            <Image source={require('../../assets/rate.png')}
-              style={styles.rateIcon}
-            />
+          > 
+            <Entypo
+              style={styles.elevation}
+              color={Colors.orange}
+              size={RFPercentage(10)}
+              name='share' />
             <Text
               style={styles.next}
             >{t('Share')}</Text>

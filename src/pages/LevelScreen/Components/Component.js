@@ -5,7 +5,7 @@ export const onShare = async () => {
     try {
         const result = await Share.share({
             message:
-                'Would you like to share Football App ',
+                'Would you like to share Code Finder ',
         });
         if (result.action === Share.sharedAction) {
             if (result.activityType) {

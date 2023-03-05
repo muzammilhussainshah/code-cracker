@@ -27,7 +27,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { styles } from '../styles';
 import { DEFAULT_LANGUAGE } from '../../../utilities';
 
-export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong, isReset, resetModalFunc }) => {
+export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong, isReset, resetModalFunc,navigation }) => {
     // console.log(DEFAULT_LANGUAGE,'DEFAULT_LANGUAGEDEFAULT_LANGUAGE')
 
     return (
@@ -71,6 +71,7 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong, is
             <View style={styles.helpContainer}>
                 <TouchableOpacity
                     disabled={isWrong || isReset}
+                    onPress={() => navigation.navigate('HelpScreen')}
                     activeOpacity={.8}
                     style={styles.helpSubContainer}>
                     {selectedLanguage == 'EN' &&
@@ -115,6 +116,10 @@ const Code = ({ v, i, callBack }) => {
                     if (value > 0) {
                         callBack(value - 1)
                         setValue(value - 1)
+                    } else {
+                        callBack(9)
+                        setValue(9)
+
                     }
                 }}
                 activeOpacity={.8}>
@@ -142,17 +147,20 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
         <View style={styles.codeAnswerContainer}>
             <View style={styles.answerFrameContainer}>
 
-                {isWrong ? <WrongModal currentUser={currentUser} wrongModalFunc={wrongModalFunc} /> :
-                    isReset ? <ResetModal currentUser={currentUser} resetModalFunc={resetModalFunc} setCodeForUI={setCodeForUI} setisLoader={setisLoader} /> :
-                        codeWithHints?.guessCode?.map((v, i) =>
-                            <Code v={v} i={i}
-                                callBack={(codeDigit) => {
-                                    let arrayCopy = JSON.parse(JSON.stringify(codeSt));
-                                    arrayCopy.splice(i, 1, codeDigit)
-                                    setCodeSt(arrayCopy)
-                                }}
-                            />
-                        )
+                {isWrong &&
+                    <WrongModal currentUser={currentUser} wrongModalFunc={wrongModalFunc} />
+                }
+                {/* {isWrong ? <WrongModal currentUser={currentUser} wrongModalFunc={wrongModalFunc} /> : */}
+                {isReset ? <ResetModal currentUser={currentUser} resetModalFunc={resetModalFunc} setCodeForUI={setCodeForUI} setisLoader={setisLoader} /> :
+                    codeWithHints?.guessCode?.map((v, i) =>
+                        <Code v={v} i={i}
+                            callBack={(codeDigit) => {
+                                let arrayCopy = JSON.parse(JSON.stringify(codeSt));
+                                arrayCopy.splice(i, 1, codeDigit)
+                                setCodeSt(arrayCopy)
+                            }}
+                        />
+                    )
                 }
 
             </View>
@@ -190,7 +198,7 @@ export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFu
 
             }
 
-            <View style={{ flex: 2.1, justifyContent: "center", alignItems: 'center',  }}>
+            <View style={{ flex: 2.1, justifyContent: "center", alignItems: 'center', }}>
                 <Text style={styles.whatIsCodeText}>{t('hint')}</Text>
                 <Image
                     source={require('../../../assets/hintsNew.png')}
@@ -237,7 +245,7 @@ export const ResetModal = ({ currentUser, resetModalFunc, setCodeForUI, setisLoa
 
 export const WrongModal = ({ currentUser, wrongModalFunc }) => {
     return (
-        <View style={{ width: '105%', height: '100%' }}>
+        <View style={{ width: '105%', height: '100%', position: "absolute", zIndex: 2 }}>
             <TouchableOpacity onPress={() => wrongModalFunc(false)} style={{ position: "absolute", zIndex: 2, right: 10, }}>
                 <FontAwesome
                     name='close'
@@ -251,7 +259,7 @@ export const WrongModal = ({ currentUser, wrongModalFunc }) => {
             // style={{ width: 200, height: 200, elevation: 5 }}
             />
             <View style={{ position: "absolute", zIndex: 1, width: '100%', height: RFPercentage(25), justifyContent: 'flex-end', alignItems: 'center' }}>
-                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingWrongAttempt < 2 ? t('demoteMsg') : currentUser.remainingWrongAttempt - 1 +' '+ t('wrongAttempMsg')} </Text>
+                <Text style={{ color: Colors.white, marginBottom: '5%' }}>{currentUser.remainingWrongAttempt < 2 ? t('demoteMsg') : currentUser.remainingWrongAttempt - 1 + ' ' + t('wrongAttempMsg')} </Text>
             </View>
         </View>
     )

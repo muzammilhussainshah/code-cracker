@@ -43,7 +43,6 @@ const MainScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     if (prevRoute?.name === "LevelScreen") {
-      // setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)]);
       setCodeForUI()
     }
     getDefaultLanguage()
@@ -79,7 +78,7 @@ const MainScreen = ({ navigation, route }) => {
           isWrong={isWrong}
           isReset={isReset}
           resetModalFunc={(bool) => setisReset(bool)}
-
+          navigation={navigation}
           selectedLanguage={selectedLanguage}
           score={currentUser.score}
           setIsDropDownOpen={() => setIsDropDownOpen(!isDropDownOpen)} />
