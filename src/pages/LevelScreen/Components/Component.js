@@ -23,11 +23,11 @@ export const onShare = async () => {
 
 
 export const rateUs = () => {
+    
     const options = {
         AppleAppID: "2193813192",
-        GooglePackageName: "com.mywebsite.myapp",
-        AmazonPackageName: "com.mywebsite.myapp",
-        OtherAndroidURL: "http://www.randomappstore.com/app/47172391",
+        GooglePackageName: "com.codefinder",
+        // OtherAndroidURL: "http://www.randomappstore.com/app/47172391",
         preferredAndroidMarket: AndroidMarket.Google,
         preferInApp: true,
         openAppStoreIfInAppFails: true,
@@ -35,7 +35,7 @@ export const rateUs = () => {
     }
     Rate.rate(options, (success, errorMessage) => {
         if (success) {
-            console.log(success, errorMessage)
+            console.log(success,'successsuccesssuccess', errorMessage)
         }
         if (errorMessage) {
             // errorMessage comes from the native code. Useful for debugging, but probably not for users to view

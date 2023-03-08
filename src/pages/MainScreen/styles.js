@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
 
     languageContainer: { flex: 1.5, },
 
-    helpContainer: { flex: 1, justifyContent: 'center', alignItems: "flex-end" },
+    helpContainer: { flex: 1, justifyContent: 'center', alignItems: "flex-end" ,marginRight:'2.5%'},
 
     msgContainer: { flex: 1, justifyContent: 'center', alignItems: "center" },
 
