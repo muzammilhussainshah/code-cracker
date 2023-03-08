@@ -27,8 +27,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { styles } from '../styles';
 import { DEFAULT_LANGUAGE } from '../../../utilities';
 
-export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong, isReset, resetModalFunc,navigation }) => {
-    // console.log(DEFAULT_LANGUAGE,'DEFAULT_LANGUAGEDEFAULT_LANGUAGE')
+export const Header = ({ setIsDropDownOpen, isDropDownOpen, selectedLanguage, score, isWrong, isReset, resetModalFunc, navigation }) => {
+    // console.log(selectedLanguage,'DEFAULT_LANGUAGEDEFAULT_LANGUAGE')
 
     return (
         <View style={styles.headerContainer}>
@@ -69,16 +69,18 @@ export const Header = ({ setIsDropDownOpen, selectedLanguage, score, isWrong, is
 
             </View>
             <View style={styles.helpContainer}>
-                <TouchableOpacity
-                    disabled={isWrong || isReset}
-                    onPress={() => navigation.navigate('HelpScreen')}
-                    activeOpacity={.8}
-                    style={styles.helpSubContainer}>
-                    {selectedLanguage == 'EN' &&
-                        <Text style={styles.help}>{`?`}</Text>
-                    }
-                    <Text style={styles.help}>{t('help')}</Text>
-                </TouchableOpacity>
+                {!isDropDownOpen &&
+                    <TouchableOpacity
+                        disabled={isWrong || isReset}
+                        onPress={() => navigation.navigate('HelpScreen')}
+                        activeOpacity={.8}
+                        style={styles.helpSubContainer}>
+                        {/* {(selectedLanguage == 'EN' || selectedLanguage == 'en') &&
+                            <Text style={styles.help}>{`?`}</Text>
+                        } */}
+                        <Text style={styles.help}>{t('help')}</Text>
+                    </TouchableOpacity>
+                }
             </View>
             <View style={styles.msgContainer}>
                 <Text style={styles.whatIsCodeText}>{t('WhatIsCode')}</Text>
@@ -98,6 +100,10 @@ const Code = ({ v, i, callBack }) => {
                     if (value < 9) {
                         callBack(value + 1)
                         setValue(value + 1)
+                    } else {
+                        callBack(0)
+                        setValue(0)
+
                     }
                 }}
                 activeOpacity={.8}>
@@ -132,7 +138,7 @@ const Code = ({ v, i, callBack }) => {
         </View>
     )
 }
-export const CodeAnwer = ({ codeWithHints, navigation, currentUser, wrongModalFunc, isWrong, isReset, resetModalFunc, setCodeForUI }) => {
+export const CodeAnwer = ({ codeWithHints, isDropDownOpen, navigation, currentUser, wrongModalFunc, isWrong, isReset, resetModalFunc, setCodeForUI }) => {
     const [codeSt, setCodeSt] = useState([])
     const [isLoader, setisLoader] = useState(false)
     const dispatch = useDispatch()
