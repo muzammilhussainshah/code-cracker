@@ -59,6 +59,7 @@ const MainScreen = ({ navigation, route }) => {
   const setCodeForUI = () => {
     setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)])
   }
+  console.log(CodeHintsST,'CodeHintsSTCodeHintsSTCodeHintsST',codeWithHints)
   // const getUserDetail = () => {
   //   try {
   //     crashlytics().setUserId('userId')
