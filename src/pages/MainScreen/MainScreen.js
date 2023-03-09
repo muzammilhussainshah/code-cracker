@@ -25,7 +25,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { WrongModal } from './Components/Component';
 import { styles } from './styles';
 import { getItem } from '../../helpers/AsyncStorage';
-import crashlytics from '@react-native-firebase/crashlytics';
+// import crashlytics from '@react-native-firebase/crashlytics';
 const MainScreen = ({ navigation, route }) => {
   const [isWrong, setisWrong] = useState(false)
   const [isReset, setisReset] = useState(false)
@@ -59,24 +59,25 @@ const MainScreen = ({ navigation, route }) => {
   const setCodeForUI = () => {
     setCodeHintsST(codeWithHints[Math.floor(Math.random() * codeWithHints.length)])
   }
-  const getUserDetail = () => {
-    try {
-      crashlytics().setUserId('userId')
-      crashlytics().setAttribute('userName', 'userName Value')
-      crashlytics().setAttribute({
-        role: 'Admin',
-        username: '13',
-        email: 'phoenix@example.com',
-        credits: 42,
-      }
-      )
-    }
-    catch (err) {
-      crashlytics().recordError(err)
+  console.log(CodeHintsST,'CodeHintsSTCodeHintsSTCodeHintsST',codeWithHints)
+  // const getUserDetail = () => {
+  //   try {
+  //     crashlytics().setUserId('userId')
+  //     crashlytics().setAttribute('userName', 'userName Value')
+  //     crashlytics().setAttribute({
+  //       role: 'Admin',
+  //       username: '13',
+  //       email: 'phoenix@example.com',
+  //       credits: 42,
+  //     }
+  //     )
+  //   }
+  //   catch (err) {
+  //     crashlytics().recordError(err)
 
-    }
+  //   }
 
-  }
+  // }
   useEffect(() => {
     // console.log('App mounted.')
     // crashlytics().crash()
